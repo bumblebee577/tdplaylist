@@ -1,3 +1,84 @@
+# TD Playlist
+
+## Functionality
+
+1.  ### Timer
+
+- Allow user to increment and decrement timer - range (0, 60)
+- start will begin countdown to 0
+- if timer hits 0 popup will ask what task at attribute time, a new task or they can cancel.
+- if started the start button will change to pause button and allow pausing
+- reset button will reset the timer
+- label will be disabled if timer is running. active is timer is not running.
+- clicking timer will allow user to attribute time completed on timer to task
+
+1.  ### TaskTable
+
+- display all the tasks
+- table columns: line #, title, scheduled, Hours Worked, Due Date, status, checkbox for completing
+- clicking on title goes to edit task from
+- should be able to increment Hours Worked by 1/4 hour
+- Checking completed box should change item to completed and draw line across item
+- Be able to filter tasks based on status => all, new, inprogress, onhold, completed
+- be able to sort items based on columsn - title, scheduled, hours worked, due date, status
+- Due date should be a badge and turn red if it's less than a week until due
+- input and button to quickly add task with title and default inputs
+- new task button for more detailed task additions
+
+1. ### TaskForm
+
+- update title,
+- update hours worked {date: hour+-} => add dates
+- update due date
+- update scheduled
+- update status,
+- update hours needed
+- update goal
+- update label
+- delete task
+
+1. ### GoalTable
+
+- display all the goals
+- table columns: line #, title, due date, status, checkbox for complete
+- clicking on title goes to edit goal from
+- Checking completed box should change item to completed and draw line across item
+- Be able to filter tasks based on status => all, new, inprogress, onhold, completed
+- be able to sort items based on columsn - title, scheduled, hours worked, due date, status
+- Due date should be a badge and turn red if it's less than a week until due
+
+1. ### GoalForm
+
+- update name,
+- update due date
+- update status,
+- delete goal
+
+1. ### Registration Form
+
+- name, email, password
+
+1. ### Login Form
+
+- email and password
+
+1. ### Reports
+
+- analysis of total time spent on tasks
+- time spent by month, week, today
+- time spent based on status
+- time spent based on goals
+
+1.  ### Settings
+
+- change name
+- change email
+- change password
+- change default work timer time
+- change default break timer time
+- change sidebar color
+- change header color
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
