@@ -1,6 +1,14 @@
 # TD Playlist
 
-## Functionality
+## Worklist:
+
+- refactor task services so there is a taskServices for adding, updating, deleting, and creating tasks
+- refactor task table so that there is a table template
+- make title of task clickable so that you can edit the task
+- finish refactoring form template - add submit button
+- add goals input to the task form
+- refactor timer functions
+- when timer goes to 0 should prompt user to assign time to a task and if they want to start break/skip break
 
 1.  ### Timer
 
@@ -12,7 +20,7 @@
 - label will be disabled if timer is running. active is timer is not running.
 - clicking timer will allow user to attribute time completed on timer to task
 
-1.  ### TaskTable
+2.  ### TaskTable
 
 - display all the tasks
 - table columns: line #, title, scheduled, Hours Worked, Due Date, status, checkbox for completing
@@ -25,7 +33,7 @@
 - input and button to quickly add task with title and default inputs
 - new task button for more detailed task additions
 
-1. ### TaskForm
+3. ### TaskForm
 
 - update title,
 - update hours worked {date: hour+-} => add dates
@@ -37,7 +45,7 @@
 - update label
 - delete task
 
-1. ### GoalTable
+4. ### GoalTable
 
 - display all the goals
 - table columns: line #, title, due date, status, checkbox for complete
@@ -47,29 +55,29 @@
 - be able to sort items based on columsn - title, scheduled, hours worked, due date, status
 - Due date should be a badge and turn red if it's less than a week until due
 
-1. ### GoalForm
+5. ### GoalForm
 
 - update name,
 - update due date
 - update status,
 - delete goal
 
-1. ### Registration Form
+6. ### Registration Form
 
 - name, email, password
 
-1. ### Login Form
+7. ### Login Form
 
 - email and password
 
-1. ### Reports
+8. ### Reports
 
 - analysis of total time spent on tasks
 - time spent by month, week, today
 - time spent based on status
 - time spent based on goals
 
-1.  ### Settings
+9.  ### Settings
 
 - change name
 - change email
@@ -78,6 +86,8 @@
 - change default break timer time
 - change sidebar color
 - change header color
+
+# React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

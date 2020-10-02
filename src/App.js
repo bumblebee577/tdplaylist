@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route } from "react-router-dom";
 import http from "./services/httpService";
 import Header from "./components/header";
 import Sidebar from "./components/sidebar";
@@ -24,11 +24,11 @@ class App extends Component {
   }
 
   handleAddTask = async (task) => {
+    if (task.scheduled === "") task.scheduled = "1969-12-31";
+    if (task.dueDate === "") task.dueDate = "1969-12-31";
     const newTask = {
-      title: task.title,
       ownerId: this.state.user,
-
-      status: task.status,
+      ...task,
     };
     const newTaskList = [...this.state.taskList, newTask];
 
@@ -64,7 +64,21 @@ class App extends Component {
               />
             )}
           />
-          <Route path="/taskForm" component={TaskForm} />
+
+          <Route
+            path="/taskForm/:id"
+            render={(props) => (
+              <TaskForm {...props} handleAddTask={this.handleAddTask} />
+            )}
+          />
+
+          <Route
+            path="/taskForm"
+            render={(props) => (
+              <TaskForm {...props} handleAddTask={this.handleAddTask} />
+            )}
+            exact
+          />
           {/* <Route path="/goals" component={GoalTable} />
           <Route path="/not-found" component={NotFound} />
           <Redirect from="/" exact to="/tasks" />

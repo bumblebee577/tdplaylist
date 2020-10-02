@@ -1,66 +1,83 @@
-import React, { Component } from "react";
-import "./form.css";
+import React from "react";
+import Joi from "joi-browser";
+import Form from "../templates/form";
 
-class TaskForm extends Component {
-  state = { data: {}, error: {} };
+class TaskForm extends Form {
+  state = {
+    data: {
+      title: "",
+      status: "new",
+      hrsWorked: 0,
+      hrsNeeded: 0,
+      scheduled: "",
+      dueDate: "",
+    },
+    errors: {},
+  };
 
-  handleInputChange = (event) => {
-    const data = { ...this.state.data };
-    data[event.target.id] = event.target.value;
+  schema = {
+    title: Joi.string().required(),
+    status: Joi.string().required(),
+    hrsWorked: Joi.number(),
+    hrsNeeded: Joi.number(),
+    scheduled: Joi.date(),
+    dueDate: Joi.date(),
+  };
 
-    this.setState({
-      data,
-    });
+  handleSubmitForm = () => {
+    this.props.handleAddTask(this.state.data);
+    console.log("successful submit");
   };
 
   render() {
     return (
-      <form className="taskForm">
+      <form className="taskForm" onSubmit={this.handleClickSubmit}>
+        {this.renderInput("title", "Title")}
+        {this.renderSelection("status", "Status", [
+          "new",
+          "inProgress",
+          "onHold",
+          "completed",
+        ])}
+        {this.renderInput("dueDate", "Due Date", "date")}
+
         <div className="form-group">
-          <label for="title">Title</label>
+          <label htmlFor="scheduled">Scheduled</label>
           <input
-            type="text"
+            type="date"
             className="form-control"
-            id="title"
-            value={this.state.data.title}
+            id="scheduled"
+            value={this.state.data.scheduled}
             onChange={this.handleInputChange}
           />
         </div>
 
         <div className="form-group">
-          <label for="status">Status</label>
+          <label htmlFor="hrsWorked">Hours Worked</label>
           <input
-            type="text"
+            type="number"
             className="form-control"
-            id="status"
-            value={this.state.data.status}
+            id="hrsWorked"
+            value={this.state.data.hrsWorked}
             onChange={this.handleInputChange}
           />
         </div>
 
         <div className="form-group">
-          <label for="status">Due Date</label>
-          <input type="date" className="form-control" id="status" />
-        </div>
-
-        <div className="form-group">
-          <label for="status">Scheduled</label>
-          <input type="date" className="form-control" id="status" />
-        </div>
-
-        <div className="form-group">
-          <label for="status">Hours Worked</label>
-          <input type="number" className="form-control" id="status" />
-        </div>
-
-        <div className="form-group">
-          <label for="status">Hours Needed</label>
-          <input type="number" className="form-control" id="status" />
+          <label htmlFor="hrsNeeded">Hours Needed</label>
+          <input
+            type="number"
+            className="form-control"
+            id="hrsNeeded"
+            value={this.state.data.hrsNeeded}
+            onChange={this.handleInputChange}
+          />
         </div>
 
         <button type="submit" className="btn btn-primary">
           Submit
         </button>
+        <p>{this.props.match.params.id}</p>
       </form>
     );
   }

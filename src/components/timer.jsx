@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import "./timer.css";
 
-//buttons: increase, decrease, reset, start/pause
-//labels: work, break
-
 class Timer extends Component {
   state = {
     timeInSecs: 25 * 60,
@@ -17,15 +14,23 @@ class Timer extends Component {
     let secs = Math.floor(this.state.timeInSecs % 60);
 
     mins = mins < 10 ? "0" + mins : mins + "";
-    secs = secs < 10 ? secs + "0" : secs + "";
+    secs = secs < 10 ? "0" + secs : secs + "";
 
     return `${mins} : ${secs}`;
   };
 
   startTimer = () => {
-    this.setState((state) => ({
-      timeInSecs: state.timeInSecs - 1,
-    }));
+    if (this.state.timeInSecs > 0) {
+      this.setState((state) => ({
+        timeInSecs: state.timeInSecs - 1,
+      }));
+    } else {
+      clearInterval(this.state.timerInterval);
+      this.setState({
+        isRunning: false,
+        timerInterval: undefined,
+      });
+    }
   };
 
   renderStartBtn = () => {
@@ -50,6 +55,32 @@ class Timer extends Component {
       });
     }
   };
+
+  handleResetBtn = () => {
+    let timeInMin = 25;
+    this.setState({
+      timeInSecs: timeInMin * 60,
+    });
+  };
+
+  handleIncrement = () => {
+    if (this.state.timeInSecs < 60 * 60) {
+      let timeInMin = this.state.timeInSecs / 60 + 1;
+      this.setState((state) => ({
+        timeInSecs: timeInMin * 60,
+      }));
+    }
+  };
+
+  handleDecrement = () => {
+    if (this.state.timeInSecs > 60) {
+      let timeInMin = this.state.timeInSecs / 60 - 1;
+
+      this.setState((state) => ({
+        timeInSecs: timeInMin * 60,
+      }));
+    }
+  };
   render() {
     return (
       <div className="timer">
@@ -68,13 +99,13 @@ class Timer extends Component {
             {this.renderStartBtn()}
           </button>
 
-          <button className="btn btn-secondary">
+          <button className="btn btn-secondary" onClick={this.handleResetBtn}>
             <i className="fa fa-refresh" aria-hidden="true"></i>
           </button>
-          <button className="btn btn-secondary">
+          <button className="btn btn-secondary" onClick={this.handleDecrement}>
             <i className="fa fa-arrow-down" aria-hidden="true"></i>
           </button>
-          <button className="btn btn-secondary">
+          <button className="btn btn-secondary" onClick={this.handleIncrement}>
             <i className="fa fa-arrow-up" aria-hidden="true"></i>
           </button>
         </span>

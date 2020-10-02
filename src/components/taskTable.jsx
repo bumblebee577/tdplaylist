@@ -10,6 +10,16 @@ const TaskTable = (props) => {
     setTaskTitle("");
   };
 
+  const formatDate = (dateString) => {
+    if (!dateString) return "None";
+    let year = dateString.substring(0, 4);
+    year = parseInt(year);
+    let currentYear = new Date().getFullYear();
+    if (year < currentYear) return "None";
+
+    return dateString.substring(0, 10);
+  };
+
   return (
     <div className="taskTable">
       <div className="input-group mb-3 newTaskGroup">
@@ -56,12 +66,22 @@ const TaskTable = (props) => {
         </thead>
         <tbody>
           {props.taskList.map((t, i) => (
-            <tr>
-              <td className="num">{i + 1}</td>
-              <td className="title">{t.title}</td>
-              <td className="hours">{t.hrsWorked}</td>
-              <td className="due">{t.dueDate ? t.dueDate : "None"}</td>
-              <td className="status">{t.status}</td>
+            <tr key={"row" + i + 1}>
+              <td className="num" key={i + 1}>
+                {i + 1}
+              </td>
+              <td className="title" key={i + 1 + "title"}>
+                <Link to={`/taskForm/${t._id}`}> {t.title} </Link>
+              </td>
+              <td className="hours" key={i + 1 + "hrsWorked"}>
+                {t.hrsWorked}
+              </td>
+              <td className="due" key={i + 1 + "dueDate"}>
+                {formatDate(t.dueDate)}
+              </td>
+              <td className="status" key={i + 1 + "status"}>
+                {t.status}
+              </td>
             </tr>
           ))}
         </tbody>
