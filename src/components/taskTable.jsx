@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./taskTable.css";
+import AddToTime from './addToTime';
 
 const TaskTable = (props) => {
   const [taskTitle, setTaskTitle] = useState("");
 
   const sendAddTask = () => {
     props.handleAddTask({ title: taskTitle });
+    window.location.reload();
     setTaskTitle("");
   };
 
@@ -74,7 +76,7 @@ const TaskTable = (props) => {
                 <Link to={`/taskForm/${t._id}`}> {t.title} </Link>
               </td>
               <td className="hours" key={i + 1 + "hrsWorked"}>
-                {t.hrsWorked}
+                {t.hrsWorked} <AddToTime/>
               </td>
               <td className="due" key={i + 1 + "dueDate"}>
                 {formatDate(t.dueDate)}

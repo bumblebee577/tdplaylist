@@ -27,6 +27,7 @@ class Timer extends Component {
     } else {
       clearInterval(this.state.timerInterval);
       this.setState({
+        timeInSec: 0,
         isRunning: false,
         timerInterval: undefined,
       });

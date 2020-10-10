@@ -27,7 +27,6 @@
   margin: 10 auto;
   padding: 5px;
   list-style-type: none;
-  position: fixed;
 }
 
 .nav-item {
@@ -49,4 +48,15 @@
   padding: 10px;
   text-align: justify;
   color: white;
+}
+
+.nameOfUser {
+  color: white;
+  border: solid 2px white;
+  border-radius: 10px;
+  width: 75%;
+  margin: 0 auto;
+  display: block;
+  text-align: center;
+  padding-top: 10px;
 }

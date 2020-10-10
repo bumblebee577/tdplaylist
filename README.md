@@ -3,10 +3,9 @@
 ## Worklist:
 
 - refactor task services so there is a taskServices for adding, updating, deleting, and creating tasks
+- finish refactoring form template - add submit button | add delete button, add goals input
+- populate form with task that is intended to be editted
 - refactor task table so that there is a table template
-- make title of task clickable so that you can edit the task
-- finish refactoring form template - add submit button
-- add goals input to the task form
 - refactor timer functions
 - when timer goes to 0 should prompt user to assign time to a task and if they want to start break/skip break
 

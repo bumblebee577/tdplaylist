@@ -1,64 +1,86 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
-import http from "./services/httpService";
+import jwtDecode  from 'jwt-decode';
+import { getAllTasks, saveTask } from "./services/taskService";
 import Header from "./components/header";
-import Sidebar from "./components/sidebar";
-import "./App.css";
 import TaskTable from "./components/taskTable";
 import TaskForm from "./components/taskForm";
+import Login from "./components/login";
+import Register from "./components/register";
+import Sidebar from "./components/sidebar";
+import "./App.css";
+import Logout from './components/logout';
 
 class App extends Component {
   state = {
-    user: "1",
+    user: {},
     taskList: [],
   };
 
   async componentDidMount() {
-    const { data: taskList } = await http.get(
-      "http://localhost:3900/api/tasks"
-    );
+    const { data: taskList } = await getAllTasks();
+    const jwt = localStorage.getItem("td_token")
+    if(jwt){
+      const user = jwtDecode(jwt)
+      this.setState({
+        user,
+        taskList,
+      });
+    }else{
+
+      this.setState({
+        taskList,
+      });
+
+    }
+    
+
+    
+  }
+
+  handleAddTask = async (t) => {
+    const task = {
+      ownerId: this.state.user._id,
+      ...t,
+    };
+    if (task.scheduled === "") task.scheduled = "1969-12-31";
+    if (task.dueDate === "") task.dueDate = "1969-12-31";
+    if (task.hrsWorked === "") task.hrsWorked = 0;
+    if (task.hrsNeeded === "") task.hrsNeeded = 0;
+    if (task.status === "") task.status = "new";
+    const taskList = [...this.state.taskList, task];
 
     this.setState({
       taskList,
     });
-  }
-
-  handleAddTask = async (task) => {
-    if (task.scheduled === "") task.scheduled = "1969-12-31";
-    if (task.dueDate === "") task.dueDate = "1969-12-31";
-    const newTask = {
-      ownerId: this.state.user,
-      ...task,
-    };
-    const newTaskList = [...this.state.taskList, newTask];
-
-    this.setState({
-      taskList: newTaskList,
-    });
 
     try {
-      await http.post("http://localhost:3900/api/tasks", newTask);
+      await saveTask(task);
     } catch (ex) {
       console.log(ex);
     }
   };
   render() {
+    console.log(this.state.user)
     return (
       <div className="wrapper">
-        <Sidebar />
+        <Sidebar user={this.state.user}/>
 
         <div className="content">
           <Header />
           {/* <AddTask handleAddTask={this.handleAddTask} /> */}
           {/* <TaskTable taskList={this.state.taskList} /> */}
-          {/* <Route path="/register" component={RegisterForm} />
-          <Route path="/login" component={LoginForm} />
-          <Route path="/taskForm/:id" component={TaskForm} />
+          {/* <Route path="/taskForm/:id" component={TaskForm} />
           <Route path="/goalForm/:id" component={GoalForm} /> */}
+
+          
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
           <Route
             path="/tasks"
-            render={() => (
+            render={(props) => (
               <TaskTable
+                {...props}
                 taskList={this.state.taskList}
                 handleAddTask={this.handleAddTask}
               />
@@ -79,6 +101,8 @@ class App extends Component {
             )}
             exact
           />
+
+          <Route path="/logout" component={Logout} />
           {/* <Route path="/goals" component={GoalTable} />
           <Route path="/not-found" component={NotFound} />
           <Redirect from="/" exact to="/tasks" />

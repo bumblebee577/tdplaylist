@@ -15,7 +15,6 @@ class Form extends Component {
   };
 
   handleInputChange = ({ currentTarget: input }) => {
-    console.log(input);
     const data = { ...this.state.data };
     data[input.id] = input.value;
 
@@ -51,11 +50,12 @@ class Form extends Component {
     event.preventDefault();
 
     const errors = this.validateSubmitInput();
-    if (Object.keys(errors).length > 0) return;
+
     this.setState({
       errors,
     });
 
+    if (Object.keys(errors).length > 0) return;
     this.handleSubmitForm();
   };
 
@@ -76,9 +76,11 @@ class Form extends Component {
           className="form-control"
           autoFocus
         />
-        {this.state.errors[id] && (
-          <div className="alert alert-danger">{this.state.errors[id]}</div>
-        )}
+        {this.state.errors
+          ? this.state.errors[id] && (
+              <div className="alert alert-danger">{this.state.errors[id]}</div>
+            )
+          : ""}
       </div>
     );
   };
@@ -91,8 +93,8 @@ class Form extends Component {
           className="form-control"
           id={id}
           name={id}
-          value={this.state.data[id]}
           onChange={this.handleInputChange}
+          value={this.state.data[id]}
         >
           {obj.map((item) => (
             <option key={id + item} value={item}>
@@ -101,6 +103,14 @@ class Form extends Component {
           ))}
         </select>
       </div>
+    );
+  };
+
+  renderBtn = (id, label, btnClass, type, handle) => {
+    return (
+      <button id={id} className={btnClass} type={type} onClick={handle}>
+        {label}
+      </button>
     );
   };
 }
