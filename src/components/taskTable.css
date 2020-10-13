@@ -25,6 +25,11 @@
   text-align: center;
 }
 
+.hours div {
+  font-size: 20px;
+  font-weight: 350;
+}
+
 .due {
   width: 10%;
 }

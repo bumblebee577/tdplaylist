@@ -76,7 +76,9 @@ const TaskTable = (props) => {
                 <Link to={`/taskForm/${t._id}`}> {t.title} </Link>
               </td>
               <td className="hours" key={i + 1 + "hrsWorked"}>
-                {t.hrsWorked} <AddToTime/>
+                <div className="badge badge-alert m2">{t.hrsWorked} </div>
+              
+                <AddToTime/>
               </td>
               <td className="due" key={i + 1 + "dueDate"}>
                 {formatDate(t.dueDate)}

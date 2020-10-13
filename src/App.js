@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
-import jwtDecode  from 'jwt-decode';
+import auth from "./services/authService"
 import { getAllTasks, saveTask } from "./services/taskService";
 import Header from "./components/header";
 import TaskTable from "./components/taskTable";
@@ -8,8 +8,9 @@ import TaskForm from "./components/taskForm";
 import Login from "./components/login";
 import Register from "./components/register";
 import Sidebar from "./components/sidebar";
-import "./App.css";
 import Logout from './components/logout';
+import "./App.css";
+import PRoute from './components/pRoute';
 
 class App extends Component {
   state = {
@@ -19,23 +20,12 @@ class App extends Component {
 
   async componentDidMount() {
     const { data: taskList } = await getAllTasks();
-    const jwt = localStorage.getItem("td_token")
-    if(jwt){
-      const user = jwtDecode(jwt)
+    const user = auth.getCurrentUser()
+
       this.setState({
         user,
         taskList,
-      });
-    }else{
-
-      this.setState({
-        taskList,
-      });
-
-    }
-    
-
-    
+      });    
   }
 
   handleAddTask = async (t) => {
@@ -68,12 +58,7 @@ class App extends Component {
 
         <div className="content">
           <Header />
-          {/* <AddTask handleAddTask={this.handleAddTask} /> */}
-          {/* <TaskTable taskList={this.state.taskList} /> */}
-          {/* <Route path="/taskForm/:id" component={TaskForm} />
-          <Route path="/goalForm/:id" component={GoalForm} /> */}
-
-          
+ 
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route
@@ -103,10 +88,7 @@ class App extends Component {
           />
 
           <Route path="/logout" component={Logout} />
-          {/* <Route path="/goals" component={GoalTable} />
-          <Route path="/not-found" component={NotFound} />
-          <Redirect from="/" exact to="/tasks" />
-          <Redirect to="/not-found" /> */}
+    
         </div>
       </div>
     );

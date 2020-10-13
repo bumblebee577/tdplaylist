@@ -1,9 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 
-class AddToTime extends Component {
-  render() {
-    return <i className="fa fa-hourglass-o m-2" aria-hidden="true"></i>;
-  }
+
+
+const AddToTime = (props) => {
+  return (<button className="btn btn-dark">
+  <i className="fa fa-hourglass-o" aria-hidden="true"></i>
+  </button>);
 }
-
+ 
 export default AddToTime;

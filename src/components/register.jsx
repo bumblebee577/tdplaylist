@@ -2,6 +2,7 @@ import React from "react";
 import Form from "../templates/form";
 import Joi from "joi-browser";
 import { register } from "../services/userService";
+import auth from "../services/authService";
 
 class Register extends Form {
   state = {
@@ -21,7 +22,7 @@ class Register extends Form {
   handleSubmitForm = async () => {
     try {
       const response = await register(this.state.data);
-      localStorage.setItem("tdplay_token", response.headers["td_auth_token"]);
+      auth.loginWithJwt(response.headers["td_auth_token"])
 
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {

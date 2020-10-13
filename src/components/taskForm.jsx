@@ -57,22 +57,9 @@ class TaskForm extends Form {
 
   render() {
     return (
-      <div>
-        <div>
-          {this.props.match.params.id ? (
-            <button
-              id="delete"
-              className="btn btn-danger mt-2 mb-2"
-              onClick={this.handleDelete}
-            >
-              Delete
-            </button>
-          ) : (
-            ""
-          )}
-        </div>
-
-        <form className="taskForm" onSubmit={this.handleClickSubmit}>
+      <div className="formPage">
+      
+        <form className="formContent" onSubmit={this.handleClickSubmit}>
           {this.renderInput("title", "Title")}
           {this.renderSelection("status", "Status", [
             "new",
@@ -119,6 +106,19 @@ class TaskForm extends Form {
             Submit
           </button>
         </form>
+        <div className="formContent">
+        {this.props.match.params.id ? (
+            <button
+              id="delete"
+              className="btn btn-danger"
+              onClick={this.handleDelete}
+            >
+              Delete
+            </button>
+          ) : (
+            ""
+          )}
+          </div>
       </div>
     );
   }

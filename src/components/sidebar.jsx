@@ -7,6 +7,14 @@ const nonUserView =() =>{
   return(
 
   <React.Fragment>
+
+<li className="nav-item">
+          <Link to="/tasks">
+            {" "}
+            <i className="fa fa-tasks" aria-hidden="true"></i>
+            Tasks
+          </Link>
+        </li>
   <li className="nav-item">
           <Link to="/register">
             <i className="fa fa-id-badge" aria-hidden="true"></i>
@@ -77,11 +85,11 @@ const Sidebar = (props) => {
       <div className="nav-header">
         <h3>TD Playlist</h3>
       </div>
-      <div className="nameOfUser">{props.user._id? <p>{props.user.name}</p> : <p>Anonymous</p>}</div>
+      <div className="nameOfUser">{props.user? <p>{props.user.name}</p> : <p>Anonymous</p>}</div>
 
       <ul className="nav-menu">
       
-        {props.user._id? userView() : nonUserView()}
+        {props.user? userView() : nonUserView()}
         
       </ul>
     </nav>
