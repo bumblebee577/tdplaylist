@@ -5,7 +5,12 @@ import { Link } from "react-router-dom";
 class GoalTable extends Table {
   state = {
     goalTitle: "",
-    columns: ["#", "Title", "Date Created"],
+    columns: [
+      { id: "num", label: "#" },
+      { id: "title", label: "Title" },
+      { id: "dateCreated", label: "Date Created" },
+    ],
+    sortBy: { id: "title", order: "asc" },
   };
 
   sendAddItem = () => {
