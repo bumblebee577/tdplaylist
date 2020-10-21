@@ -17,6 +17,17 @@
   top: 0;
 }
 
+.nameOfUser {
+  color: white;
+  border: solid 2px white;
+  border-radius: 10px;
+  width: 75%;
+  margin: 0 auto;
+  display: block;
+  text-align: center;
+  padding-top: 10px;
+}
+
 .nav-header {
   text-align: center;
   width: 100%;
@@ -40,23 +51,15 @@
   padding-right: 15px;
 }
 
-.nav-item a {
+.nav-item {
   color: white;
 }
 
-.nav-item:hover {
-  padding: 10px;
-  text-align: justify;
-  color: white;
+a:hover {
+  font-weight: bold;
+  text-decoration: none !important;
 }
 
-.nameOfUser {
-  color: white;
-  border: solid 2px white;
-  border-radius: 10px;
-  width: 75%;
-  margin: 0 auto;
-  display: block;
-  text-align: center;
-  padding-top: 10px;
+.active li {
+  border-bottom: 2px solid white;
 }

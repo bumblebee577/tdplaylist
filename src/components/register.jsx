@@ -22,8 +22,7 @@ class Register extends Form {
   handleSubmitForm = async () => {
     try {
       const response = await register(this.state.data);
-      auth.loginWithJwt(response.headers["td_auth_token"])
-
+      auth.loginWithJwt(response.headers["td_auth_token"]);
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
@@ -37,7 +36,7 @@ class Register extends Form {
 
   render() {
     return (
-      <form className="taskForm" onClick={this.handleClickSubmit}>
+      <form className="formContent" onClick={this.handleClickSubmit}>
         {this.renderInput("name", "Name")}
         {this.renderInput("email", "Email")}
         {this.renderInput("password", "Password", "password")}

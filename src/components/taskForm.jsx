@@ -6,8 +6,10 @@ import { getOneTask, deleteTask } from "../services/taskService";
 class TaskForm extends Form {
   state = {
     data: {
+      _id: "",
       title: "",
       status: "new",
+      goal: "",
       hrsWorked: 0,
       hrsNeeded: 0,
       scheduled: "",
@@ -23,8 +25,10 @@ class TaskForm extends Form {
       const schedYear = data.scheduled ? data.scheduled.substring(0, 4) : 0;
       this.setState({
         data: {
+          _id: data._id,
           title: data.title,
           status: data.status,
+          goal: data.goal,
           dueDate: dueYear > 2000 ? data.dueDate.substring(0, 10) : "",
           scheduled: schedYear > 2000 ? data.scheduled.substring(0, 10) : "",
           hrsWorked: data.hrsWorked ? data.hrsWorked : 0,
@@ -35,8 +39,10 @@ class TaskForm extends Form {
   }
 
   schema = {
+    _id: Joi.string(),
     title: Joi.string().required(),
     status: Joi.string().required(),
+    goal: Joi.string(),
     hrsWorked: Joi.number(),
     hrsNeeded: Joi.number(),
     scheduled: Joi.date(),
@@ -58,7 +64,6 @@ class TaskForm extends Form {
   render() {
     return (
       <div className="formPage">
-      
         <form className="formContent" onSubmit={this.handleClickSubmit}>
           {this.renderInput("title", "Title")}
           {this.renderSelection("status", "Status", [
@@ -67,6 +72,8 @@ class TaskForm extends Form {
             "onhold",
             "completed",
           ])}
+
+          {this.renderSelection("goal", "Goal", ["Goal1", "Goal2"])}
           {this.renderInput("dueDate", "Due Date", "date")}
 
           <div className="form-group">
@@ -107,7 +114,7 @@ class TaskForm extends Form {
           </button>
         </form>
         <div className="formContent">
-        {this.props.match.params.id ? (
+          {this.props.match.params.id ? (
             <button
               id="delete"
               className="btn btn-danger"
@@ -118,7 +125,7 @@ class TaskForm extends Form {
           ) : (
             ""
           )}
-          </div>
+        </div>
       </div>
     );
   }

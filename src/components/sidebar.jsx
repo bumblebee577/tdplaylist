@@ -1,83 +1,85 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import "./sidebar.css";
 
-const nonUserView =() =>{
-
-  return(
-
-  <React.Fragment>
-
-<li className="nav-item">
-          <Link to="/tasks">
-            {" "}
-            <i className="fa fa-tasks" aria-hidden="true"></i>
-            Tasks
-          </Link>
-        </li>
-  <li className="nav-item">
-          <Link to="/register">
-            <i className="fa fa-id-badge" aria-hidden="true"></i>
-            Register
-          </Link>
-        </li>
-
-        <li className="nav-item">
-          <Link to="/login">
-            <i className="fa fa-sign-in" aria-hidden="true"></i>
-            Login
-          </Link>
-        </li>
-  </React.Fragment>
-  )
-
-}
-
-
-const userView = () =>{
-  return(
+const nonUserView = () => {
+  return (
     <React.Fragment>
-      <li className="nav-item">
-          <Link to="/tasks">
-            {" "}
-            <i className="fa fa-tasks" aria-hidden="true"></i>
-            Tasks
-          </Link>
+      <NavLink to="/tasks">
+        <li className="nav-item">
+          {" "}
+          <i className="fa fa-tasks" aria-hidden="true"></i>
+          Tasks
         </li>
+      </NavLink>
+      <NavLink to="/register">
+        <li className="nav-item">
+          <i className="fa fa-id-badge" aria-hidden="true"></i>
+          Register
+        </li>
+      </NavLink>
 
+      <NavLink to="/login">
         <li className="nav-item">
-          <Link to="/goals">
-            <i className="fa fa-trophy" aria-hidden="true"></i>
-            Goals
-          </Link>
+          <i className="fa fa-sign-in" aria-hidden="true"></i>
+          Login
         </li>
-
-        <li className="nav-item">
-          <Link to="/report">
-            <i className="fa fa-pie-chart" aria-hidden="true"></i>
-            Report
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link to="/settings">
-            {" "}
-            <i className="fa fa-cog" aria-hidden="true"></i>
-            Settings
-          </Link>
-        </li>
-
-        <li className="nav-item">
-          <Link to="/logout">
-            {" "}
-            <i className="fa fa-sign-out" aria-hidden="true"></i>
-            Logout
-          </Link>
-        </li>
+      </NavLink>
     </React.Fragment>
+  );
+};
 
+const userView = () => {
+  return (
+    <React.Fragment>
+      <NavLink to="/agenda">
+        <li className="nav-item">
+          {" "}
+          <i className="fa fa-calendar-check-o" aria-hidden="true"></i>
+          Agenda
+        </li>
+      </NavLink>
 
-  )
-}
+      <NavLink to="/tasks">
+        <li className="nav-item">
+          {" "}
+          <i className="fa fa-tasks" aria-hidden="true"></i>
+          Tasks
+        </li>
+      </NavLink>
+
+      <NavLink to="/goals">
+        <li className="nav-item">
+          <i className="fa fa-trophy" aria-hidden="true"></i>
+          Goals
+        </li>
+      </NavLink>
+
+      <NavLink to="/report">
+        <li className="nav-item">
+          <i className="fa fa-pie-chart" aria-hidden="true"></i>
+          Report
+        </li>
+      </NavLink>
+
+      <NavLink to="/settings">
+        <li className="nav-item">
+          {" "}
+          <i className="fa fa-cog" aria-hidden="true"></i>
+          Settings
+        </li>
+      </NavLink>
+
+      <NavLink to="/logout">
+        <li className="nav-item">
+          {" "}
+          <i className="fa fa-sign-out" aria-hidden="true"></i>
+          Logout
+        </li>
+      </NavLink>
+    </React.Fragment>
+  );
+};
 
 const Sidebar = (props) => {
   return (
@@ -85,13 +87,11 @@ const Sidebar = (props) => {
       <div className="nav-header">
         <h3>TD Playlist</h3>
       </div>
-      <div className="nameOfUser">{props.user? <p>{props.user.name}</p> : <p>Anonymous</p>}</div>
+      <div className="nameOfUser">
+        {props.user ? <p>{props.user.name}</p> : <p>Anonymous</p>}
+      </div>
 
-      <ul className="nav-menu">
-      
-        {props.user? userView() : nonUserView()}
-        
-      </ul>
+      <ul className="nav-menu">{props.user ? userView() : nonUserView()}</ul>
     </nav>
   );
 };

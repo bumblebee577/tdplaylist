@@ -2,12 +2,21 @@
 
 ## Worklist:
 
-- refactor task services so there is a taskServices for adding, updating, deleting, and creating tasks
-- finish refactoring form template - add submit button | add delete button, add goals input
-- populate form with task that is intended to be editted
-- refactor task table so that there is a table template
-- refactor timer functions
-- when timer goes to 0 should prompt user to assign time to a task and if they want to start break/skip break
+- be able to filter based on status of task on task table
+- be able to sort task table
+- add goal selection option on the task form
+
+- when timer goes to 0 should prompt user to assign time to a task 
+  - and if they want to start break/skip break
+
+- setting form for changing name, email, password
+  - allow changing number of pages per page (pagination), color of sidebar
+  - allow changing default time on timer
+
+- report for tracking time worked
+  - show total hours worked
+  - show hours worked based on goal?
+  - show hours worked today, week, month, year
 
 1.  ### Timer
 

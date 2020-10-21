@@ -12,9 +12,9 @@ export function getOneTask(id) {
 
 export function saveTask(task) {
   if (task._id) {
-    const existingTask = { ...task };
-    delete existingTask._id;
-    return http.put(apiEndpoint + "/" + task._id, existingTask);
+    const taskId = task._id;
+    delete task._id;
+    return http.put(apiEndpoint + "/" + taskId, task);
   }
   return http.post(apiEndpoint, task);
 }

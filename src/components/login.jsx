@@ -20,8 +20,7 @@ class Login extends Form {
     try {
       const { data } = this.state;
       await auth.login(data.email, data.password);
-      window.location = "/tasks"
-
+      window.location = "/tasks";
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
@@ -35,7 +34,7 @@ class Login extends Form {
 
   render() {
     return (
-      <form className="taskForm" onSubmit={this.handleClickSubmit}>
+      <form className="formContent" onSubmit={this.handleClickSubmit}>
         {this.renderInput("email", "Email")}{" "}
         {this.renderInput("password", "Password", "password")}
         <button className="btn btn-primary" type={"submit"}>

@@ -1,11 +1,11 @@
-.taskTable {
+.itemTable {
   width: 85%;
   margin: 0 auto;
 }
 
 .newTaskGroup {
   display: flex;
-  padding: 15px;
+  padding-top: 15px;
 }
 
 .newTaskGroup button {
@@ -36,4 +36,12 @@
 
 .status {
   width: 10%;
+}
+
+.complete {
+  text-decoration: line-through;
+}
+
+.table {
+  margin-top: 10px;
 }
