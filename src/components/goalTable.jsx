@@ -4,14 +4,19 @@ import { Link } from "react-router-dom";
 
 class GoalTable extends Table {
   state = {
-    goalTitle: "",
-    columns: ["#", "Title", "Date Created"],
+    goalName: "",
+    columns: [
+      { id: "num", label: "#" },
+      { id: "name", label: "Name" },
+      { id: "dueDate", label: "Due Date" },
+    ],
+    sortBy: { id: "name", order: "asc" },
   };
 
   sendAddItem = () => {
-    this.props.handleAddGoal({ name: this.state.goalTitle });
+    this.props.handleAddGoal({ name: this.state.goalName });
     this.setState({
-      goalTitle: "",
+      goalName: "",
     });
   };
 
@@ -23,9 +28,9 @@ class GoalTable extends Table {
             type="text"
             className="form-control border border-dark"
             id="title"
-            value={this.state.goalTitle}
+            value={this.state.goalName}
             onChange={(event) =>
-              this.setState({ goalTitle: event.target.value })
+              this.setState({ goalName: event.target.value })
             }
             placeholder="New goal name"
           />
@@ -47,15 +52,18 @@ class GoalTable extends Table {
 
           <tbody>
             {this.props.goalList.map((g, i) => (
-              <tr key={"row" + i + 1}>
+              <tr
+                key={"row" + i + 1}
+                className={g.status === "completed" ? "complete" : "incomplete"}
+              >
                 <td className="num" key={i + 1}>
                   {i + 1}
                 </td>
                 <td className="name" key={i + 1 + "name"}>
-                  <Link to={`/goalForm/${g._id}`}> {g.name} </Link>
+                  <Link to={`/goalForm/${g.ownerId}/${g._id}`}> {g.name} </Link>
                 </td>
-                <td className="dateCreated" key={i + 1 + "dateCreated"}>
-                  {this.formatDate(g.dateCreated)}
+                <td className="dueDate" key={i + 1 + "dueDate"}>
+                  {this.formatDate(g.dueDate)}
                 </td>
               </tr>
             ))}

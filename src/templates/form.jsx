@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Joi from "joi-browser";
-import "./form.css";
 
 class Form extends Component {
   state = { data: {}, errors: {} };
@@ -37,13 +36,7 @@ class Form extends Component {
     const result = Joi.validate(this.state.data, this.schema, options);
     if (!result.error) return {};
 
-    return result.error.details.reduce((a, c) => {
-      if (c.path[0] !== "scheduled" && c.path[0] !== "dueDate") {
-        a[c.path] = c.message;
-      }
-
-      return a;
-    }, {});
+    return result.error.details;
   };
 
   handleClickSubmit = (event) => {
@@ -60,21 +53,43 @@ class Form extends Component {
   };
 
   handleSubmitForm = () => {
-    console.log("successful submit");
+    console.log("need to implement submit");
   };
 
-  renderInput = (id, label, type = "text") => {
+  // renderInput = (id, label, type = "text") => {
+  //   return (
+  //     <div className="form-group">
+  //       <label htmlFor={id}>{label}</label>
+  //       <input
+  //         id={id}
+  //         name={id}
+  //         value={this.state.data[id]}
+  //         onChange={this.handleInputChange}
+  //         type={type}
+  //         className="form-control"
+  //         autoFocus
+
+  //       />
+  //       {this.state.errors
+  //         ? this.state.errors[id] && (
+  //             <div className="alert alert-danger">{this.state.errors[id]}</div>
+  //           )
+  //         : ""}
+  //     </div>
+  //   );
+  // };
+
+  renderInput = (id, label, obj) => {
     return (
       <div className="form-group">
         <label htmlFor={id}>{label}</label>
         <input
           id={id}
-          name={id}
-          value={this.state.data[id]}
-          onChange={this.handleInputChange}
-          type={type}
           className="form-control"
           autoFocus
+          onChange={this.handleInputChange}
+          value={this.state.data[id]}
+          {...obj}
         />
         {this.state.errors
           ? this.state.errors[id] && (

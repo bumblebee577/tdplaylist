@@ -2,12 +2,12 @@ import http from "../services/httpService";
 
 const apiEndpoint = "http://localhost:3900/api/tasks";
 
-export function getAllTasks() {
-  return http.get(apiEndpoint);
+export function getAllTasks(ownerId) {
+  return http.get(apiEndpoint + "/" + ownerId);
 }
 
-export function getOneTask(id) {
-  return http.get(apiEndpoint + "/" + id);
+export function getOneTask(ownerId, id) {
+  return http.get(apiEndpoint + "/" + ownerId + "/" + id);
 }
 
 export function saveTask(task) {
@@ -16,6 +16,7 @@ export function saveTask(task) {
     delete task._id;
     return http.put(apiEndpoint + "/" + taskId, task);
   }
+  delete task._id;
   return http.post(apiEndpoint, task);
 }
 

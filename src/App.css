@@ -7,3 +7,181 @@
   position: relative;
   width: 100%;
 }
+
+.header {
+  background-color: #dfe6e9;
+  padding: 5px;
+}
+
+#navbar {
+  background: rgb(63, 94, 251);
+  background: radial-gradient(
+    circle,
+    rgba(63, 94, 251, 1) 0%,
+    rgba(252, 70, 107, 1) 100%
+  );
+  width: 200px;
+  height: 100vh;
+  align-items: center;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 999;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+
+.nameOfUser {
+  color: white;
+  border: solid 2px white;
+  border-radius: 10px;
+  width: 75%;
+  margin: 0 auto;
+  display: block;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.nav-header {
+  text-align: center;
+  width: 100%;
+  padding: 10px;
+}
+
+.nav-menu {
+  margin: 10 auto;
+  padding: 5px;
+  list-style-type: none;
+}
+
+.nav-item {
+  padding: 10px;
+  margin: 10px;
+  text-align: justify;
+  font-size: 1.2em;
+}
+
+.nav-item i {
+  padding-right: 15px;
+}
+
+.nav-item {
+  color: white;
+}
+
+a:hover {
+  font-weight: bold;
+  text-decoration: none !important;
+}
+
+.active li {
+  border-bottom: 2px solid white;
+}
+
+.formPage {
+  width: 100%;
+}
+
+.formContent {
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.itemTable {
+  width: 85%;
+  margin: 0 auto;
+}
+
+.newTaskGroup {
+  display: flex;
+  padding-top: 15px;
+}
+
+.newTaskGroup button {
+  margin-right: 5px;
+}
+
+.num {
+  width: 5%;
+}
+
+.title {
+  width: 55%;
+}
+
+.hours {
+  width: 10%;
+  text-align: center;
+}
+
+.hours div {
+  font-size: 20px;
+  font-weight: 350;
+}
+
+.due {
+  width: 10%;
+}
+
+.status {
+  width: 10%;
+}
+
+.complete {
+  text-decoration: line-through;
+}
+
+.table {
+  margin-top: 10px;
+}
+
+.timerC {
+  text-align: center;
+  margin: 2 auto;
+}
+
+.timerLabelToolTip {
+  visibility: hidden;
+  position: absolute;
+  background-color: black;
+  color: #fff;
+  border-radius: 6px;
+  padding: 5px 0;
+  line-height: 1.2em;
+}
+
+.timerLabel:hover .timerLabelToolTip {
+  width: 120px;
+  visibility: visible;
+}
+
+.agenda-list {
+  list-style-type: none;
+  padding: 5px;
+}
+
+.component {
+  text-align: left;
+  padding: 15px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.edit-display {
+  border: 2px solid gray;
+  background-color: white;
+  width: 100%;
+  height: 200px;
+}
+
+.two-col-input {
+  display: flex;
+  column-gap: 10px;
+}
+
+.reportPage h1 {
+  text-align: center;
+}

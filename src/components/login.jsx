@@ -36,7 +36,7 @@ class Login extends Form {
     return (
       <form className="formContent" onSubmit={this.handleClickSubmit}>
         {this.renderInput("email", "Email")}{" "}
-        {this.renderInput("password", "Password", "password")}
+        {this.renderInput("password", "Password", { type: "password" })}
         <button className="btn btn-primary" type={"submit"}>
           Submit
         </button>

@@ -39,7 +39,7 @@ class Register extends Form {
       <form className="formContent" onClick={this.handleClickSubmit}>
         {this.renderInput("name", "Name")}
         {this.renderInput("email", "Email")}
-        {this.renderInput("password", "Password", "password")}
+        {this.renderInput("password", "Password", { type: "password" })}
         {this.renderBtn("submit", "Submit", "btn btn-primary", "submit")}
       </form>
     );

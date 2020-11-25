@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 class ButtonGroupFilter extends Component {
   render() {
-    const taskStatusList = ["all", "new", "inProgress", "completed", "onHold"];
+    const taskStatusList = ["all", "new", "inprogress", "onhold", "completed"];
 
     return (
       <div className="btn-group" role="group">
@@ -17,7 +17,7 @@ class ButtonGroupFilter extends Component {
             }
             onClick={() => this.props.handleFilterTask(s)}
           >
-            {s}
+            {s === "completed" ? <s>{s}</s> : s}
           </button>
         ))}
       </div>

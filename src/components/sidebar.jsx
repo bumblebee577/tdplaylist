@@ -1,6 +1,5 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
-import "./sidebar.css";
+import { NavLink } from "react-router-dom";
 
 const nonUserView = () => {
   return (
@@ -62,13 +61,13 @@ const userView = () => {
         </li>
       </NavLink>
 
-      <NavLink to="/settings">
+      {/* <NavLink to="/settings">
         <li className="nav-item">
           {" "}
           <i className="fa fa-cog" aria-hidden="true"></i>
           Settings
         </li>
-      </NavLink>
+      </NavLink> */}
 
       <NavLink to="/logout">
         <li className="nav-item">
@@ -88,10 +87,12 @@ const Sidebar = (props) => {
         <h3>TD Playlist</h3>
       </div>
       <div className="nameOfUser">
-        {props.user ? <p>{props.user.name}</p> : <p>Anonymous</p>}
+        {props.user.name ? <p>{props.user.name}</p> : <p>Anonymous</p>}
       </div>
 
-      <ul className="nav-menu">{props.user ? userView() : nonUserView()}</ul>
+      <ul className="nav-menu">
+        {props.user._id ? userView() : nonUserView()}
+      </ul>
     </nav>
   );
 };
