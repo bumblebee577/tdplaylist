@@ -181,3 +181,7 @@ a:hover {
   display: flex;
   column-gap: 10px;
 }
+
+.reportPage h1 {
+  text-align: center;
+}

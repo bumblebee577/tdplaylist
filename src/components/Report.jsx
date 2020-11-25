@@ -13,7 +13,7 @@ class Report extends Component {
       datasets: [
         {
           label: "days of week",
-          data: [0],
+          data: [],
           backgroundColor: [
             "#FFF6B7",
             "#bbd7d1",
@@ -28,42 +28,94 @@ class Report extends Component {
     },
   };
 
+  TODAY = new Date();
+  CURR_DAY = this.TODAY.getDay();
+  CURR_DATE = this.TODAY.getDate();
+  CURR_MONTH = this.TODAY.getMonth() + 1;
+  CURR_YEAR = this.TODAY.getFullYear();
+
+  DAYS_OF_WEEK = ["mon", "tue", "wed", "thur", "fri", "sat", "sun"];
+  COLORS_WEEK = [
+    "#FFF6B7",
+    "#bbd7d1",
+    "#fcdabc",
+    "#e4d0c3",
+    "#cfc5f8",
+    "#c0d4f7",
+    "#fac5cc",
+  ];
+  MONTHS_OF_YEAR = [
+    "jan",
+    "feb",
+    "mar",
+    "apr",
+    "may",
+    "jun",
+    "jul",
+    "aug",
+    "sept",
+    "oct",
+    "nov",
+    "dec",
+  ];
+
   async componentDidMount() {
     const user = auth.getCurrentUser();
     if (user) {
       const { data: taskList } = await getAllTasks(user._id);
 
-      // const minsThisWeek= taskList.filter(t => )
+      const minsThisWeek = this.getThisWeek(taskList);
+      const weekTotal = minsThisWeek.reduce((acc, curr) => acc + curr, 0);
 
-      const arrOfMinObj = taskList.reduce(
-        (array, task) => array.concat(task["minsWorked"]),
-        []
-      );
-      const arrOfMins = arrOfMinObj.reduce(
-        (acc, curr) => (curr ? acc.concat(Object.values(curr)) : acc),
-        []
-      );
-
-      const total = arrOfMins.reduce((acc, curr) => acc + curr, 0);
       const data = { ...this.state.data };
-      data.datasets[0].data = [5, 7, 10, 4, 8, 6, 6];
-
-      console.log(data);
+      data.datasets[0].data = minsThisWeek;
 
       this.setState({
-        total,
+        weekTotal,
         data,
       });
     }
   }
 
-  render() {
-    const dayofweek = new Array(7);
-    const monthofyear = new Array(12);
+  getThisWeek = (taskList) => {
+    const sinceThisMonday = new Date(
+      Date.now() - 1000 * 60 * 60 * 24 * this.CURR_DAY + 1
+    );
 
+    const allMinsObj = taskList.reduce(
+      (array, task) => array.concat(task["minsWorked"]),
+      []
+    );
+
+    const minsThisWeek = allMinsObj.reduce(
+      (acc, curr) => {
+        if (curr) {
+          let dates = Object.keys(curr);
+          dates.forEach((date) =>
+            new Date(date) > sinceThisMonday
+              ? (acc[new Date(date).getDay()] += parseInt(curr[date]))
+              : console.log("before last week", date, curr[date])
+          );
+        }
+        return acc;
+      },
+
+      [0, 0, 0, 0, 0, 0, 0]
+    );
+
+    return minsThisWeek;
+  };
+
+  render() {
+    //hours today
+    //yesterday
+    //this month
+    //last month
+    //total
     return (
       <div className="reportPage">
-        <h1>{"Total Hours: " + this.state.total}</h1>
+        <h1>{"Hours this week: " + (this.state.weekTotal / 60).toFixed(2)}</h1>
+
         <Pie data={this.state.data} width={150} height={50} />
       </div>
     );
@@ -72,9 +124,9 @@ class Report extends Component {
 
 export default Report;
 
-//this week -> breakdown of days
+//hrs based on task
 
-//total hours worked today, yesterday, this week, this month, this year
-// total hours worked total
-//hrs worked based on goal
-//
+//total hours worked total
+//hrs based on goal
+//hrs today - this week / option to choose last week1
+//hrs for each month / option to choose this year, last year(s)
