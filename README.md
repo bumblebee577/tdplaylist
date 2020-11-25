@@ -2,22 +2,29 @@
 
 ## Worklist:
 
-- design adding time worked to tasks and how to:
-  - allow adding, deleting, editing
+- populate the mins when date is selected for editting
 
-- when timer goes to 0 should prompt user to assign time to a task
-  - and if they want to start break/skip break
+- when timer goes to 0 should prompt user to assign time to a task and if they want to start break/skip break
 
 - report for tracking time worked
-  - show total increments worked today - pomodoro
-  - line graph showing hours worked - week, month, year
-  - show hours worked based on goals - pie chart
- 
+
+  - show hours worked each day this week - pie / radar
+  - show hours worked each month this year - chart
+  - show hours worked based on goals - pie / radar
+  - show total worked
+
 - setting form for changing name, email, password
-  - allow changing number of pages per page (pagination), color of sidebar
-  - allow changing default time on timer
-  - default hours to add to the task
-  - change password option
+
+## Future Features:
+
+- add integration with spotify api
+- allow anonymous users to use the web app without creating an account
+- allow users to change number of items per page (pagination)
+- allow users to change color gradient of sidebar
+- allow users to change default time on timer and default time for break
+- add button on tasks to increment based on default time on timer
+- allow users to set baseline target for hours work per week / on goals -> radar chart
+- add links to the tasks so that you can jump to the task immediately
 
 1.  ### Timer
 
