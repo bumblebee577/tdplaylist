@@ -2,21 +2,22 @@
 
 ## Worklist:
 
-- be able to filter based on status of task on task table
-- be able to sort task table
-- add goal selection option on the task form
+- design adding time worked to tasks and how to:
+  - allow adding, deleting, editing
 
-- when timer goes to 0 should prompt user to assign time to a task 
+- when timer goes to 0 should prompt user to assign time to a task
   - and if they want to start break/skip break
 
+- report for tracking time worked
+  - show total increments worked today - pomodoro
+  - line graph showing hours worked - week, month, year
+  - show hours worked based on goals - pie chart
+ 
 - setting form for changing name, email, password
   - allow changing number of pages per page (pagination), color of sidebar
   - allow changing default time on timer
-
-- report for tracking time worked
-  - show total hours worked
-  - show hours worked based on goal?
-  - show hours worked today, week, month, year
+  - default hours to add to the task
+  - change password option
 
 1.  ### Timer
 

@@ -10,7 +10,7 @@ class TaskTable extends Table {
     columns: [
       { id: "num", label: "#" },
       { id: "title", label: "Title" },
-      { id: "hrsWorked", label: "Hours" },
+      { id: "minsWorked", label: "Mins" },
       { id: "scheduled", label: "Scheduled" },
       { id: "dueDate", label: "Due Date" },
     ],
@@ -37,6 +37,10 @@ class TaskTable extends Table {
     );
   };
 
+  filterTaskIncomplete = () => {
+    return this.props.taskList.filter((t) => t.status !== "completed");
+  };
+
   sortColumns = (sortId) => {
     let order = "asc";
     if (this.state.sortBy.id === sortId) {
@@ -46,14 +50,12 @@ class TaskTable extends Table {
     this.setState({
       sortBy,
     });
-
-    console.log(this.state.sortBy);
   };
 
   render() {
     const filteredTaskList =
       this.state.taskFilter === "all"
-        ? this.props.taskList
+        ? this.filterTaskIncomplete()
         : this.filterTaskList();
 
     const sortedTaskList = _.orderBy(
@@ -106,10 +108,20 @@ class TaskTable extends Table {
                   {i + 1}
                 </td>
                 <td className="title" key={i + 1 + "title"}>
-                  <Link to={`/taskForm/${t._id}`}> {t.title} </Link>
+                  <Link to={`/taskForm/${t.ownerId}/${t._id}`}>
+                    {" "}
+                    {t.title}{" "}
+                  </Link>
                 </td>
-                <td className="hours" key={i + 1 + "hrsWorked"}>
-                  <div className="badge badge-secondary m2">{t.hrsWorked} </div>
+                <td className="hours" key={i + 1 + "minsWorked"}>
+                  <div className="badge badge-secondary m2">
+                    {t.minsWorked
+                      ? Object.values(t.minsWorked).reduce(
+                          (a, c) => a + parseFloat(c),
+                          0
+                        )
+                      : 0}{" "}
+                  </div>
                 </td>
                 <td className="scheduled" key={i + 1 + "scheduled"}>
                   {this.formatDate(t.scheduled)}

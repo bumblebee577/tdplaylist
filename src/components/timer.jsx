@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./timer.css";
 
 class Timer extends Component {
   state = {
@@ -84,7 +83,7 @@ class Timer extends Component {
   };
   render() {
     return (
-      <div className="timer">
+      <div className="timerC">
         <h1>{this.formatTime()} </h1>
 
         <span className="timerLabel">

@@ -5,12 +5,15 @@ import { getOneTask, deleteTask } from "../services/taskService";
 
 class TaskForm extends Form {
   state = {
+    taskObj: {},
     data: {
       _id: "",
+      ownerId: "",
       title: "",
       status: "new",
-      goal: "",
-      hrsWorked: 0,
+      goal: "None",
+      dateWorked: "",
+      minsWorked: 0,
       hrsNeeded: 0,
       scheduled: "",
       dueDate: "",
@@ -20,37 +23,96 @@ class TaskForm extends Form {
 
   async componentDidMount() {
     if (this.props.match.params.id) {
-      const { data } = await getOneTask(this.props.match.params.id);
+      let { data } = await getOneTask(
+        this.props.match.params.ownerId,
+        this.props.match.params.id
+      );
+
+      data = data[0];
+
+      let month =
+        new Date().getMonth() + 1 < 10
+          ? "0" + (new Date().getMonth() + 1)
+          : new Date().getMonth() + 1;
+      let date =
+        new Date().getDate() < 10
+          ? "0" + new Date().getDate()
+          : new Date().getDate();
+      const todaysDate = new Date().getFullYear() + "-" + month + "-" + date;
+
+      // const todayGmt = new Date().toGMTString().slice(0, 16);
       const dueYear = data.dueDate ? data.dueDate.substring(0, 4) : 0;
       const schedYear = data.scheduled ? data.scheduled.substring(0, 4) : 0;
+      const minsToday = data.minsWorked ? data.minsWorked[todaysDate] : null;
+
       this.setState({
+        taskObj: data,
         data: {
           _id: data._id,
+          ownerId: data.ownerId,
           title: data.title,
           status: data.status,
           goal: data.goal,
-          dueDate: dueYear > 2000 ? data.dueDate.substring(0, 10) : "",
-          scheduled: schedYear > 2000 ? data.scheduled.substring(0, 10) : "",
-          hrsWorked: data.hrsWorked ? data.hrsWorked : 0,
+          dateWorked: todaysDate,
+          minsWorked: minsToday ? minsToday : 0,
           hrsNeeded: data.hrsNeeded ? data.hrsNeeded : 0,
+          scheduled: schedYear > 2000 ? data.scheduled.substring(0, 10) : "",
+          dueDate: dueYear > 2000 ? data.dueDate.substring(0, 10) : "",
         },
       });
     }
   }
 
   schema = {
-    _id: Joi.string(),
+    _id: Joi.string().allow(""),
+    ownerId: Joi.string().allow(""),
     title: Joi.string().required(),
     status: Joi.string().required(),
-    goal: Joi.string(),
-    hrsWorked: Joi.number(),
-    hrsNeeded: Joi.number(),
-    scheduled: Joi.date(),
-    dueDate: Joi.date(),
+    goal: Joi.string().allow(""),
+    dateWorked: Joi.date().allow(""),
+    minsWorked: Joi.number().min(0),
+    hrsNeeded: Joi.number().min(0),
+    scheduled: Joi.date().allow(""),
+    dueDate: Joi.date().allow(""),
   };
 
   handleSubmitForm = () => {
-    this.props.handleAddTask(this.state.data);
+    const {
+      _id,
+      ownerId,
+      title,
+      status,
+      goal,
+      dateWorked,
+      minsWorked,
+      hrsNeeded,
+      scheduled,
+      dueDate,
+    } = this.state.data;
+
+    let preTimeObj = {
+      ...this.state.taskObj.minsWorked,
+      [dateWorked]: parseInt(minsWorked),
+    };
+
+    const postTimeObj = Object.keys(preTimeObj).reduce((f, k) => {
+      if (preTimeObj[k] > 0) f[k] = preTimeObj[k];
+      return f;
+    }, {});
+
+    const newtaskObj = {
+      _id,
+      ownerId,
+      title,
+      status,
+      goal,
+      minsWorked: postTimeObj,
+      hrsNeeded: hrsNeeded,
+      scheduled,
+      dueDate,
+    };
+
+    this.props.handleAddTask(newtaskObj);
     this.props.history.push("/tasks");
     console.log("successful submit");
   };
@@ -62,8 +124,34 @@ class TaskForm extends Form {
   };
 
   render() {
+    const goalSelection = this.props.goalList.reduce(
+      (a, c) => {
+        a.push(c.name);
+        return a;
+      },
+      ["None"]
+    );
+
+    const datesWorked = this.state.taskObj.minsWorked
+      ? Object.keys(this.state.taskObj.minsWorked)
+      : null;
+
     return (
       <div className="formPage">
+        {datesWorked && (
+          <div className="formContent">
+            <div>
+              <details open>
+                <summary>List of time worked on this task</summary>
+                {datesWorked.map((d) => (
+                  <li key={d}>
+                    {d + " : " + this.state.taskObj.minsWorked[d] + " minutes"}
+                  </li>
+                ))}
+              </details>
+            </div>
+          </div>
+        )}
         <form className="formContent" onSubmit={this.handleClickSubmit}>
           {this.renderInput("title", "Title")}
           {this.renderSelection("status", "Status", [
@@ -72,42 +160,27 @@ class TaskForm extends Form {
             "onhold",
             "completed",
           ])}
+          <h5>Edit Time Worked</h5>
+          <p>
+            Choose the date you want to edit and update the minutes worked for
+            that date
+          </p>
 
-          {this.renderSelection("goal", "Goal", ["Goal1", "Goal2"])}
-          {this.renderInput("dueDate", "Due Date", "date")}
-
-          <div className="form-group">
-            <label htmlFor="scheduled">Scheduled</label>
-            <input
-              type="date"
-              className="form-control"
-              id="scheduled"
-              value={this.state.data.scheduled}
-              onChange={this.handleInputChange}
-            />
+          <div className="two-col-input">
+            {this.renderInput("dateWorked", "Date", { type: "date" })}
+            {this.renderInput("minsWorked", "Minutes", {
+              type: "number",
+              min: 0,
+            })}
           </div>
 
-          <div className="form-group">
-            <label htmlFor="hrsWorked">Hours Worked</label>
-            <input
-              type="number"
-              className="form-control"
-              id="hrsWorked"
-              value={this.state.data.hrsWorked}
-              onChange={this.handleInputChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="hrsNeeded">Hours Needed</label>
-            <input
-              type="number"
-              className="form-control"
-              id="hrsNeeded"
-              value={this.state.data.hrsNeeded}
-              onChange={this.handleInputChange}
-            />
-          </div>
+          {this.renderInput("hrsNeeded", "Hours Needed", {
+            type: "number",
+            min: 0,
+          })}
+          {this.renderSelection("goal", "Goal", goalSelection)}
+          {this.renderInput("dueDate", "Due Date", { type: "date" })}
+          {this.renderInput("scheduled", "Scheduled", { type: "date" })}
 
           <button id="submit" type="submit" className="btn btn-primary">
             Submit
