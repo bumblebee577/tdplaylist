@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 class Timer extends Component {
   state = {
+    timeSetTo: 25,
     timeInSecs: 25 * 60,
     isRunning: false,
     isBreak: false,
@@ -81,13 +82,18 @@ class Timer extends Component {
       }));
     }
   };
+
   render() {
     return (
       <div className="timerC">
         <h1>{this.formatTime()} </h1>
 
         <span className="timerLabel">
-          <button className="btn btn-light">
+          <button
+            type="button"
+            className="btn btn-light"
+            onClick={this.props.handleShowTimerModal}
+          >
             {this.state.isBreak ? "Break" : "Work"}
           </button>
           <span className="timerLabelToolTip">

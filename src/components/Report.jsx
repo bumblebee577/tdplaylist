@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { getAllTasks } from "../services/taskService";
 import auth from "../services/authService";
 import { Pie, Bar } from "react-chartjs-2";
+import { ReactComponent as PomodoroSvg } from "../assets/tomato-svgrepo-com.svg";
 
 class Report extends Component {
   TODAY = new Date();
@@ -21,18 +22,18 @@ class Report extends Component {
     "#fac5cc",
   ];
   MONTHS_OF_YEAR = [
-    "jan",
-    "feb",
-    "mar",
-    "apr",
-    "may",
-    "jun",
-    "jul",
-    "aug",
-    "sept",
-    "oct",
-    "nov",
-    "dec",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sept",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
   COLORS_MONTH = [
     "#FFF6B7",
@@ -54,6 +55,7 @@ class Report extends Component {
   state = {
     todayTotal: "",
     weekTotal: "",
+    monthTotal: "",
     yearTotal: "",
     total: "",
     weekData: {
@@ -70,9 +72,11 @@ class Report extends Component {
       labels: this.MONTHS_OF_YEAR,
       datasets: [
         {
+          label: "Minutes",
+          backgroundColor: this.COLORS_MONTH,
           barPercentage: 0.05,
           barThickness: 50,
-          data: [10, 20, 30, 40, 50, 60, 70],
+          data: [],
         },
       ],
     },
@@ -88,17 +92,32 @@ class Report extends Component {
         []
       );
 
-      const todayTotal = this.getToday(allMinsObj);
       const minsThisWeek = this.getThisWeek(allMinsObj);
-      const weekTotal = minsThisWeek.reduce((acc, curr) => acc + curr, 0);
-
       const weekData = { ...this.state.weekData };
+      weekData.datasets = [...weekData.datasets];
+      weekData.datasets[0] = { ...this.state.weekData.datasets[0] };
       weekData.datasets[0].data = minsThisWeek;
+
+      const minsThisYear = this.getThisYear(allMinsObj);
+      const yearData = { ...this.state.yearData };
+      yearData.datasets = [...this.state.yearData.datasets];
+      yearData.datasets[0] = { ...this.state.yearData.datasets[0] };
+      yearData.datasets[0].data = minsThisYear;
+
+      const todayTotal = this.getToday(allMinsObj);
+      const weekTotal = minsThisWeek.reduce((acc, curr) => acc + curr, 0);
+      const monthTotal = minsThisYear[this.CURR_MONTH - 1];
+      const yearTotal = minsThisYear.reduce((acc, curr) => acc + curr, 0);
+      const total = this.getTotal(allMinsObj);
 
       this.setState({
         todayTotal,
         weekTotal,
+        monthTotal,
+        yearTotal,
+        total,
         weekData,
+        yearData,
       });
     }
   }
@@ -113,13 +132,15 @@ class Report extends Component {
       }
       return acc;
     }, 0);
+
     return minsToday;
   };
 
   getThisWeek = (allMinsObj) => {
-    const sinceThisMonday = new Date(
-      this.TODAY - 1000 * 60 * 60 * 24 * this.CURR_DAY + 1
-    );
+    const sinceThisMonday =
+      Date.parse(this.TODAY) - 1000 * 60 * 60 * 24 * (this.CURR_DAY + 0.5);
+
+    const MINS_EACH_DAY = [0, 0, 0, 0, 0, 0, 0];
 
     const minsThisWeek = allMinsObj.reduce(
       (acc, curr) => {
@@ -127,48 +148,124 @@ class Report extends Component {
           let dates = Object.keys(curr);
           dates.forEach(
             (date) =>
-              new Date(date) > sinceThisMonday &&
+              Date.parse(date) > sinceThisMonday &&
               (acc[new Date(date).getDay()] += parseInt(curr[date]))
           );
         }
         return acc;
       },
 
-      [0, 0, 0, 0, 0, 0, 0]
+      MINS_EACH_DAY
     );
 
     return minsThisWeek;
   };
 
+  getThisYear = (allMinsObj) => {
+    const MINS_EACH_MONTH = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    const minsThisYear = allMinsObj.reduce((acc, curr) => {
+      if (curr) {
+        let dates = Object.keys(curr);
+        dates.forEach(
+          (date) =>
+            parseInt(date.substring(0, 4)) === this.CURR_YEAR &&
+            (acc[parseInt(date.substring(5, 7)) - 1] += parseInt(curr[date]))
+        );
+      }
+      return acc;
+    }, MINS_EACH_MONTH);
+
+    return minsThisYear;
+  };
+
+  getTotal = (allMinsObj) => {
+    const total = allMinsObj.reduce((acc, curr) => {
+      if (curr) {
+        let dates = Object.keys(curr);
+        dates.forEach((date) => (acc += parseInt(curr[date])));
+      }
+      return acc;
+    }, 0);
+
+    return total;
+  };
+
   render() {
     return (
-      <div className="reportPage">
-        <div className="reportTotal">
-          <h1>{"Total: "}</h1>
-        </div>
-        <div className="reportTdoay">
-          <h1>
-            Badges Today:
-            {[...Array(this.state.todayTotal / 25)].map((e) => (
-              <i
-                className="fa fa-superpowers"
-                aria-hidden="true"
-                key={e + ""}
-              />
+      <div className="reportC component">
+        <div className="reportPomo">
+          <i>Keep up the great work!</i>
+          <br />
+          <i>
+            Each pomodoro is 25 mins of work...try to slowly increase the #.
+          </i>
+          <h3>Pomodoros today ({this.state.todayTotal / 25}): </h3>
+          <span>
+            {" "}
+            {[...Array(parseInt(this.state.todayTotal / 25))].map((e, i) => (
+              <span className="pomo" key={i}>
+                <PomodoroSvg width="60px" alt={i + 1} />
+              </span>
             ))}
-          </h1>
+          </span>
+          <p>
+            <a href={"https://www.svgrepo.com/svg/52746/tomato"}>
+              @pomodoro_svg_source
+            </a>
+          </p>
         </div>
-        <div className="reportWeek">
-          <h1>
-            {"Hours this week: " + (this.state.weekTotal / 60).toFixed(2)}
-          </h1>
+        <div className="reportNumbers">
+          <p>
+            <i>Hours worked today, this week, this month, and in total</i>{" "}
+          </p>
 
-          <Pie data={this.state.weekData} width={150} height={50} />
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Span</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{(this.state.todayTotal / 60).toFixed(2)} hrs</td>
+                <td>Today</td>
+              </tr>
+              <tr>
+                <td>{(this.state.weekTotal / 60).toFixed(2)} hrs</td>
+                <td>Week</td>
+              </tr>
+              <tr>
+                <td>{(this.state.monthTotal / 60).toFixed(2)} hrs</td>
+                <td>Month - {this.MONTHS_OF_YEAR[this.CURR_MONTH - 1]}</td>
+              </tr>
+              <tr>
+                <td>{(this.state.yearTotal / 60).toFixed(2)} hrs</td>
+                <td>Year - {this.CURR_YEAR}</td>
+              </tr>
+              <tr>
+                <td>{(this.state.total / 60).toFixed(2)} hrs</td>
+                <td>Total</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
-        <div className="reportYear">
-          <h1>{"Hours this by Month this Year: "}</h1>
-          <Bar data={this.state.yearData} width={200} height={50} />
+        <div className="reportWeekChart">
+          <h1>Stats for this week</h1>
+          <Pie data={this.state.weekData} />
+        </div>
+
+        <div className="reportYearChart">
+          <h1>Stats for months this year</h1>
+          <Bar
+            data={this.state.yearData}
+            options={{
+              legend: {
+                display: false,
+              },
+            }}
+          />
         </div>
       </div>
     );
@@ -178,8 +275,7 @@ class Report extends Component {
 export default Report;
 
 //hrs based on task - on each task
-
-//total hours worked total
 //hrs based on goal
-//option to choose last week1
-//this montt, last month => hrs for each month / option to choose this year, last year(s)
+
+//this month, last month => hrs for each month
+//option to choose this year, last year(s)

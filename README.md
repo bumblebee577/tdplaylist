@@ -6,13 +6,6 @@
 
 - when timer goes to 0 should prompt user to assign time to a task and if they want to start break/skip break
 
-- report for tracking time worked
-
-  - show hours worked each day this week - pie / radar
-  - show hours worked each month this year - chart
-  - show hours worked based on goals - pie / radar
-  - show total worked
-
 - setting form for changing name, email, password
 
 ## Future Features:

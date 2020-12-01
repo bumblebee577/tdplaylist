@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
-import auth from "./services/authService";
+
 import { getAllTasks, saveTask } from "./services/taskService";
 import { getAllGoals, saveGoal } from "./services/goalService";
-
+import auth from "./services/authService";
 import Agenda from "./components/Agenda";
 import Report from "./components/Report";
-
-import Header from "./components/header";
 import TaskTable from "./components/taskTable";
 import TaskForm from "./components/taskForm";
 import Login from "./components/login";
@@ -16,16 +14,19 @@ import Sidebar from "./components/sidebar";
 import Logout from "./components/logout";
 import GoalTable from "./components/goalTable";
 import GoalForm from "./components/goalForm";
+import Timer from "./components/Timer";
+import ChangePasswordForm from "./components/ChangePasswordForm";
+import Settings from "./components/settings";
 
 import "./App.css";
-import Settings from "./components/settings";
-import ChangePasswordForm from "./components/ChangePasswordForm";
+import TimerModal from "./components/TimerModal";
 
 class App extends Component {
   state = {
     user: {},
     taskList: [],
     goalList: [],
+    showTimerModal: false,
   };
 
   async componentDidMount() {
@@ -59,15 +60,6 @@ class App extends Component {
       });
     }
   }
-
-  // if (!task.scheduled) task.scheduled = "1969-12-31";
-  // if (!task.dueDate) task.dueDate = "1969-12-31";
-  // if (!task.minsWorked) task["minsWorked"] = {};
-  // if (!task.hrsNeeded) task["hrsNeeded"] = 0;
-  // if (!task.status) task.status = "new";
-
-  // const today = new Date().toGMTString().slice(0, 16);
-  // if (!task.minsWorked[today]) task.minsWorked[today] = 0;
 
   handleAddTask = async (t) => {
     const taskListBackup = [...this.state.taskList];
@@ -131,8 +123,16 @@ class App extends Component {
     }
   };
 
-  handleAddTime = (task) => {
-    console.log("Tried to add time to task" + task._id);
+  handleShowTimerModal = () => {
+    this.setState({
+      showTimerModal: true,
+    });
+  };
+
+  handleHidTimerModal = () => {
+    this.setState({
+      showTimerModal: false,
+    });
   };
 
   render() {
@@ -140,8 +140,16 @@ class App extends Component {
       <div className="wrapper">
         <Sidebar user={this.state.user} />
 
+        <TimerModal
+          showTimerModal={this.state.showTimerModal}
+          handleHidTimerModal={this.handleHidTimerModal}
+          taskList={this.state.taskList}
+        />
+
         <div className="content">
-          <Header />
+          <header>
+            <Timer handleShowTimerModal={this.handleShowTimerModal} />
+          </header>
 
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
@@ -184,21 +192,6 @@ class App extends Component {
             exact
           />
 
-          {/* <Route
-            path="/AddTimeForm/:ownerId/:id"
-            render={(props) => (
-              <AddTimeForm {...props} handleAddTime={this.handleAddTime} />
-            )}
-          />
-
-          <Route
-            path="/AddTimeForm"
-            render={(props) => (
-              <AddTimeForm {...props} handleAddTime={this.handleAddTime} />
-            )}
-            exact
-          /> */}
-
           <Route
             path="/goals"
             render={(props) => (
@@ -223,12 +216,10 @@ class App extends Component {
             exact
           />
           <Route path="/report" component={Report} />
-          {/* <Route path="/settings" component={Settings} /> */}
-          {/* <Route path="/changePw" component={ChangePasswordForm} /> */}
+          <Route path="/settings" component={Settings} />
+          <Route path="/changePw" component={ChangePasswordForm} />
 
           <Route path="/logout" component={Logout} />
-
-          {/* <Redirect from="/" to="/agenda" /> */}
         </div>
       </div>
     );

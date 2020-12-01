@@ -8,7 +8,7 @@
   width: 100%;
 }
 
-.header {
+header {
   background-color: #dfe6e9;
   padding: 5px;
 }
@@ -182,6 +182,25 @@ a:hover {
   column-gap: 10px;
 }
 
-.reportPage h1 {
+.reportC {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 8px;
+  row-gap: 8px;
+}
+
+.reportC div {
+  padding: 10px;
+  border-radius: 5px;
+  height: 500px;
+  width: 45%;
+  box-sizing: border-box;
+  box-shadow: 5px 10px rgba(146, 38, 19, 0.185);
+  border: 5px solid rgb(219, 221, 253);
+  overflow: auto;
+}
+
+.reportWeekChart,
+.reportYearChart {
   text-align: center;
 }
