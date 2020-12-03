@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Table from "../templates/table";
-import ButtonGroupFilter from "./buttonGroupFilter";
+import Table from "../templates/Table";
+import ButtonGroupFilter from "./ButtonGroupFilter";
 import _ from "lodash";
 
 class TaskTable extends Table {

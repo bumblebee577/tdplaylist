@@ -1,5 +1,5 @@
 import React from "react";
-import Table from "../templates/table";
+import Table from "../templates/Table";
 import { Link } from "react-router-dom";
 
 class GoalTable extends Table {

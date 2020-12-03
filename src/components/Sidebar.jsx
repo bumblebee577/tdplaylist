@@ -84,7 +84,7 @@ const Sidebar = (props) => {
   return (
     <nav id="navbar">
       <div className="nav-header">
-        <h3>TD Playlist</h3>
+        <h3>TDPlaylist</h3>
       </div>
       <div className="nameOfUser">
         {props.user.name ? <p>{props.user.name}</p> : <p>Anonymous</p>}

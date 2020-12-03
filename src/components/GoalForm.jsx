@@ -1,5 +1,5 @@
 import React from "react";
-import Form from "../templates/form";
+import Form from "../templates/Form";
 import Joi from "joi-browser";
 import { getOneGoal } from "../services/goalService";
 

@@ -1,22 +1,22 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
 
-import { getAllTasks, saveTask } from "./services/taskService";
+import { getAllTasks, saveTask, addTimeToTask } from "./services/taskService";
 import { getAllGoals, saveGoal } from "./services/goalService";
 import auth from "./services/authService";
 import Agenda from "./components/Agenda";
 import Report from "./components/Report";
-import TaskTable from "./components/taskTable";
-import TaskForm from "./components/taskForm";
-import Login from "./components/login";
-import Register from "./components/register";
-import Sidebar from "./components/sidebar";
-import Logout from "./components/logout";
-import GoalTable from "./components/goalTable";
-import GoalForm from "./components/goalForm";
+import TaskTable from "./components/TaskTable";
+import TaskForm from "./components/TaskForm";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Sidebar from "./components/Sidebar";
+import Logout from "./components/Logout";
+import GoalTable from "./components/GoalTable";
+import GoalForm from "./components/GoalForm";
 import Timer from "./components/Timer";
 import ChangePasswordForm from "./components/ChangePasswordForm";
-import Settings from "./components/settings";
+import Settings from "./components/Settings";
 
 import "./App.css";
 import TimerModal from "./components/TimerModal";
@@ -60,6 +60,31 @@ class App extends Component {
       });
     }
   }
+
+  handleAddTimeToTask = async (tObj) => {
+    const taskListBackup = [...this.state.taskList];
+
+    let taskList = [...this.state.taskList];
+    const taskIndex = this.state.taskList.findIndex((item) => {
+      return item._id === tObj.id;
+    });
+
+    const task = { ...taskList[taskIndex] };
+    task["minsWorked"] = tObj.minsWorked;
+    taskList[taskIndex] = task;
+    this.setState({
+      taskList,
+    });
+
+    try {
+      await addTimeToTask(tObj);
+    } catch (ex) {
+      this.setState({
+        taskList: taskListBackup,
+      });
+      console.log(ex);
+    }
+  };
 
   handleAddTask = async (t) => {
     const taskListBackup = [...this.state.taskList];
@@ -144,6 +169,7 @@ class App extends Component {
           showTimerModal={this.state.showTimerModal}
           handleHidTimerModal={this.handleHidTimerModal}
           taskList={this.state.taskList}
+          handleAddTimeToTask={this.handleAddTimeToTask}
         />
 
         <div className="content">

@@ -20,6 +20,12 @@ export function saveTask(task) {
   return http.post(apiEndpoint, task);
 }
 
+export function addTimeToTask(taskObj) {
+  return http.patch(apiEndpoint + "/" + taskObj.id, {
+    minsWorked: taskObj.minsWorked,
+  });
+}
+
 export function deleteTask(id) {
   return http.delete(apiEndpoint + "/" + id);
 }

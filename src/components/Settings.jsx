@@ -1,5 +1,5 @@
 import React from "react";
-import Form from "../templates/form";
+import Form from "../templates/Form";
 import { NavLink } from "react-router-dom";
 
 class Settings extends Form {

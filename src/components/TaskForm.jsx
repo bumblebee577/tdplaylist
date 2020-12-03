@@ -1,6 +1,6 @@
 import React from "react";
 import Joi from "joi-browser";
-import Form from "../templates/form";
+import Form from "../templates/Form";
 import { getOneTask, deleteTask } from "../services/taskService";
 
 class TaskForm extends Form {

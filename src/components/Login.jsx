@@ -1,6 +1,6 @@
 import React from "react";
 import Joi from "joi-browser";
-import Form from "../templates/form";
+import Form from "../templates/Form";
 import auth from "../services/authService";
 
 class Login extends Form {

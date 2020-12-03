@@ -32,33 +32,30 @@ function Agenda({ taskList }) {
   return (
     <div className="agendaC component">
       <h1>{todaysDateDisplay}</h1>
-      {todaysTask.map((t) => (
-        <div
-          key={t._id}
-          className={
-            checked[t._id]
-              ? "agenda-list complete input-group  "
-              : "agenda-list incomplete input-group  "
-          }
-        >
-          <div className="input-group-prepend">
-            <div className="input-group-text">
-              <input type="checkbox" onChange={() => handleChecked(t._id)} />
+
+      {todaysTask.length <= 0 ? (
+        <p>No tasks scheduled for today, go to tasks page to schedule...</p>
+      ) : (
+        todaysTask.map((t) => (
+          <div
+            key={t._id}
+            className={
+              checked[t._id]
+                ? "agenda-list complete input-group  "
+                : "agenda-list incomplete input-group  "
+            }
+          >
+            <div className="input-group-prepend">
+              <div className="input-group-text">
+                <input type="checkbox" onChange={() => handleChecked(t._id)} />
+              </div>
             </div>
+            <div className="form-control"> {t.title}</div>
           </div>
-          <div className="form-control"> {t.title}</div>
-        </div>
-      ))}
+        ))
+      )}
     </div>
   );
 }
 
 export default Agenda;
-
-//at the moment -> get all tasks scheduled for today
-
-//options;
-//table
-//list elements
-//divs
-//cards or modal
