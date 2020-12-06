@@ -74,8 +74,7 @@ class Report extends Component {
         {
           label: "Minutes",
           backgroundColor: this.COLORS_MONTH,
-          barPercentage: 0.05,
-          barThickness: 50,
+          barPercentage: 0.75,
           data: [],
         },
       ],

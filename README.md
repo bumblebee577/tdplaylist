@@ -2,11 +2,11 @@
 
 ## Worklist:
 
-- populate the mins when date is selected for editting
-
 - when timer goes to 0 should prompt user to assign time to a task and if they want to start break/skip break
 
 - setting form for changing name, email, password
+
+- add sidebar display button when screen is 600px or less
 
 ## Future Features:
 

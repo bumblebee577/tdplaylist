@@ -63,6 +63,27 @@ class TaskForm extends Form {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.data.dateWorked !== this.state.data.dateWorked) {
+      const { minsWorked } = this.state.taskObj;
+
+      const minsInput =
+        this.state.data.dateWorked &&
+        minsWorked &&
+        minsWorked[this.state.data.dateWorked]
+          ? minsWorked[this.state.data.dateWorked]
+          : 0;
+
+      if (this.state.data.minsWorked !== minsInput) {
+        const { data } = this.state;
+        data.minsWorked = minsInput;
+        this.setState({
+          data,
+        });
+      }
+    }
+  }
+
   schema = {
     _id: Joi.string().allow(""),
     ownerId: Joi.string().allow(""),
