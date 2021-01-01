@@ -15,7 +15,7 @@ import Logout from "./components/Logout";
 import GoalTable from "./components/GoalTable";
 import GoalForm from "./components/GoalForm";
 import Timer from "./components/Timer";
-import ChangePasswordForm from "./components/ChangePasswordForm";
+// import ChangePasswordForm from "./components/ChangePasswordForm";
 import Settings from "./components/Settings";
 
 import "./App.css";

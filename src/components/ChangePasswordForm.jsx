@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Form from "../templates/Form";
 
 class ChangePasswordForm extends Form {
