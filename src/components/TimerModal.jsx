@@ -10,14 +10,21 @@ import Modal from "react-bootstrap/Modal";
 function TimerModal(props) {
   const MINS_TO_ADD = 25;
   const [taskId, setTaskId] = useState("");
-  const [startBreak, setStartBreak] = useState(false);
+  const [startBreak, setStartBreak] = useState(props.isBreak);
 
   const handleSelectTask = (e) => {
     setTaskId(e.target.value);
   };
 
   const handleClickSubmit = () => {
+    if (taskId === "") {
+      console.log("Invalid task selection. No time added");
+      props.handleSetTimerBreak(startBreak);
+      props.handleHidTimerModal();
+      return;
+    }
     let task = props.taskList.filter((t) => t._id === taskId);
+    console.log(task);
     task = task[0];
 
     const now = new Date();
@@ -28,6 +35,7 @@ function TimerModal(props) {
 
     let minsWorked = { [dateNow]: MINS_TO_ADD };
 
+    console.log(task);
     if (task["minsWorked"]) {
       if (task["minsWorked"][dateNow]) {
         minsWorked = { ...task.minsWorked };
@@ -41,8 +49,12 @@ function TimerModal(props) {
       minsWorked,
     };
     props.handleAddTimeToTask(updateTask);
-
+    props.handleSetTimerBreak(startBreak);
     props.handleHidTimerModal();
+  };
+
+  const handleBreakCheck = () => {
+    setStartBreak(!startBreak);
   };
 
   return (
@@ -53,13 +65,19 @@ function TimerModal(props) {
       <Modal.Body>
         <div className="form-group">
           <div className="form-check timer-checkbox">
-            <input className="form-check-input" type="checkbox" />
+            <input
+              className="form-check-input"
+              type="checkbox"
+              value={startBreak}
+              onChange={handleBreakCheck}
+            />
             <label className="form-check-label" htmlFor="gridCheck">
-              Start Break
+              {props.isBreak ? "Stop Break" : "Start Break"}
             </label>
           </div>
 
           <select className="form-control" onChange={handleSelectTask}>
+            <option value="">Select task</option>
             {props.taskList.map((t) => (
               <option key={t._id} value={t._id}>
                 {t.title}

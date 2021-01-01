@@ -2,10 +2,9 @@ import React, { Component } from "react";
 
 class Timer extends Component {
   state = {
-    timeSetTo: 25,
-    timeInSecs: 25 * 60,
+    timeSetTo: this.props.isBreak ? 5 : 25,
+    timeInSecs: this.props.isBreak ? 5 * 60 : 25 * 60,
     isRunning: false,
-    isBreak: false,
     timerInterval: undefined,
   };
 
@@ -94,7 +93,7 @@ class Timer extends Component {
             className="btn btn-light"
             onClick={this.props.handleShowTimerModal}
           >
-            {this.state.isBreak ? "Break" : "Work"}
+            {this.props.isBreak ? "Break" : "Work"}
           </button>
           <span className="timerLabelToolTip">
             Click to assign time to a Task

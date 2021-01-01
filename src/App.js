@@ -27,6 +27,7 @@ class App extends Component {
     taskList: [],
     goalList: [],
     showTimerModal: false,
+    isBreak: false,
   };
 
   async componentDidMount() {
@@ -160,6 +161,12 @@ class App extends Component {
     });
   };
 
+  handleSetTimerBreak = (startBreak) => {
+    this.setState({
+      isBreak: startBreak,
+    });
+  };
+
   render() {
     return (
       <div className="wrapper">
@@ -170,11 +177,16 @@ class App extends Component {
           handleHidTimerModal={this.handleHidTimerModal}
           taskList={this.state.taskList}
           handleAddTimeToTask={this.handleAddTimeToTask}
+          handleSetTimerBreak={this.handleSetTimerBreak}
+          isBreak={this.state.isBreak}
         />
 
         <div className="content">
           <header>
-            <Timer handleShowTimerModal={this.handleShowTimerModal} />
+            <Timer
+              handleShowTimerModal={this.handleShowTimerModal}
+              isBreak={this.state.isBreak}
+            />
           </header>
 
           <Route path="/login" component={Login} />

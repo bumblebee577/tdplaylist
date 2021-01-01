@@ -1,6 +1,7 @@
 import http from "../services/httpService";
+import { apiUrl } from "../config.json";
 
-const apiEndpoint = "http://localhost:3900/api/tasks";
+const apiEndpoint = apiUrl + "/tasks";
 
 export function getAllTasks(ownerId) {
   return http.get(apiEndpoint + "/" + ownerId);

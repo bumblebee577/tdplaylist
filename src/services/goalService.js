@@ -1,6 +1,7 @@
 import http from "./httpService";
+import { apiUrl } from "../config.json";
 
-const apiEndpoint = "http://localhost:3900/api/goals";
+const apiEndpoint = apiUrl + "/goals";
 
 export function getAllGoals(ownerId) {
   return http.get(apiEndpoint + "/" + ownerId);
