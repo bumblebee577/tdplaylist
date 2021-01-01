@@ -4,7 +4,7 @@ export function setJwt(jwt) {
   axios.defaults.headers.common["td_auth_token"] = jwt;
 }
 
-export default {
+const http = {
   get: axios.get,
   put: axios.put,
   post: axios.post,
@@ -12,3 +12,5 @@ export default {
   patch: axios.patch,
   setJwt,
 };
+
+export default http;

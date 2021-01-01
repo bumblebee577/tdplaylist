@@ -30,10 +30,12 @@ export function getCurrentUser() {
   }
 }
 
-export default {
+const auth = {
   login,
   loginWithJwt,
   logout,
   getJwt,
   getCurrentUser,
 };
+
+export default auth;
