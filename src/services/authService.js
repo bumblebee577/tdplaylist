@@ -30,10 +30,10 @@ export function getCurrentUser() {
   }
 }
 
-// export default{
-//   login,
-//   loginWithJwt,
-//   logout,
-//   getJwt,
-//   getCurrentUser
-// }
+export default {
+  login,
+  loginWithJwt,
+  logout,
+  getJwt,
+  getCurrentUser,
+};
