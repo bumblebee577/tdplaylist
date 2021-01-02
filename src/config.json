@@ -1,4 +1,4 @@
 {
   "apiUrl_dev": "http://localhost:3900/api",
-  "apiUrl": "http://134.209.32.152/api"
+  "apiUrl": "https://134.209.32.152/api"
 }
