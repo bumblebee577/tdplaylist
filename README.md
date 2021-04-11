@@ -1,169 +1,99 @@
-# TD Playlist
+# Tdplaylist
 
-## Worklist:
+A task management web app that allows you to quickly create and track tasks with a timer. Follows the pomodoro technique to help you
+focus your work in bite-sized chunks. You can review your productivity via a report dashboard that will break down how you've spent
+your time. Check out the live website at [tdplaylist.xyz](http://tdplaylist.xyz/)
 
-- when timer goes to 0 should prompt user to assign time to a task and if they want to start break/skip break
+# Technologies
 
-- setting form for changing name, email, password
+### Front-end
 
-- add sidebar display button when screen is 600px or less
+- [React app](https://reactjs.org/docs/create-a-new-react-app.html)
+- [Bootstrap](https://getbootstrap.com/2.3.2/)
+- [Chart.js](https://www.chartjs.org/)
 
-## Future Features:
+### Back-end
 
-- add integration with spotify api
-- allow anonymous users to use the web app without creating an account
-- allow users to change number of items per page (pagination)
-- allow users to change color gradient of sidebar
-- allow users to change default time on timer and default time for break
-- add button on tasks to increment based on default time on timer
-- allow users to set baseline target for hours work per week / on goals -> radar chart
-- add links to the tasks so that you can jump to the task immediately
+- Node.js
+- Express
+- MongoDB
+- Jest
 
-1.  ### Timer
+# Worklist
+
+- Allow user to schedule, and complete tasks on task table
+- Display agenda as a filter on task table rather than a sidebar tab
+- Make sidebar mobile friendly
+- Add integration with spotify api
+- Allow anonymous users to use without signing up
+- Allow users to change email and password
+- When timer goes to 0 should prompt user to assign time to a task and if they want to start break/skip break
+
+# Existing Features
+
+### 1. Timer
 
 - Allow user to increment and decrement timer - range (0, 60)
-- start will begin countdown to 0
-- if timer hits 0 popup will ask what task at attribute time, a new task or they can cancel.
-- if started the start button will change to pause button and allow pausing
-- reset button will reset the timer
-- label will be disabled if timer is running. active is timer is not running.
-- clicking timer will allow user to attribute time completed on timer to task
+- Allows user to start, pause, and reset timer
+- User can add the time from timer to tasks on task list
 
-2.  ### TaskTable
+### 2. Tasks
 
-- display all the tasks
-- table columns: line #, title, scheduled, Hours Worked, Due Date, status, checkbox for completing
-- clicking on title goes to edit task from
-- should be able to increment Hours Worked by 1/4 hour
-- Checking completed box should change item to completed and draw line across item
-- Be able to filter tasks based on status => all, new, inprogress, onhold, completed
-- be able to sort items based on columsn - title, scheduled, hours worked, due date, status
-- Due date should be a badge and turn red if it's less than a week until due
-- input and button to quickly add task with title and default inputs
-- new task button for more detailed task additions
+- Displays tasks in on the tasks page in a table
+- Create task from task table or task form
+- Can add time to task to track time worked
+- Schedule tasks for a specific date
 
-3. ### TaskForm
+### 3. Goals
 
-- update title,
-- update hours worked {date: hour+-} => add dates
-- update due date
-- update scheduled
-- update status,
-- update hours needed
-- update goal
-- update label
-- delete task
+- Displays goals in on the goals page in a table
+- Create goals from goals table or goal form
+- Can associate goal to tasks, one to many relationship
 
-4. ### GoalTable
+### 4. Users
 
-- display all the goals
-- table columns: line #, title, due date, status, checkbox for complete
-- clicking on title goes to edit goal from
-- Checking completed box should change item to completed and draw line across item
-- Be able to filter tasks based on status => all, new, inprogress, onhold, completed
-- be able to sort items based on columsn - title, scheduled, hours worked, due date, status
-- Due date should be a badge and turn red if it's less than a week until due
+Registration Form
 
-5. ### GoalForm
+- Requires name, email and password
+- Uses joi-browser to validate input
+- Stores password as bycrypt hash
 
-- update name,
-- update due date
-- update status,
-- delete goal
+Login Form
 
-6. ### Registration Form
+- requires email and password to login
+- Uses joi-browser to validate input
 
-- name, email, password
+### 5. Reports
 
-7. ### Login Form
+**Four dashboard widgets**
 
-- email and password
+- widget 1 displays a pomodoro/tomato for every 25 minutes worked today
+- widget 2 displays a breakdown of the number of hours worked today, this week, this month, this year and in total
+- widget 3 displays the hours worked each day of this week
+- widget 4 displays the hours worked each month of this year
 
-8. ### Reports
-
-- analysis of total time spent on tasks
-- time spent by month, week, today
-- time spent based on status
-- time spent based on goals
-
-9.  ### Settings
-
-- change name
-- change email
-- change password
-- change default work timer time
-- change default break timer time
-- change sidebar color
-- change header color
-
-# React App
+# Installation
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+The steps below will describe how to install the app in your local environment.
 
-In the project directory, you can run:
+### 1. Clone this repository to your local directory. You can fork first or directly clone.
 
-### `npm start`
+```
+git clone https://github.com/linnal86/tdplaylist.git
+```
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 2. Go to the local directory and install the dependencies
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+```
+npm install
+```
 
-### `npm test`
+### 3. Go to the [tdserver repo]() and follow the steps to install the server.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 4. Run the client
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-#tdplaylist
+```
+npm start
+```

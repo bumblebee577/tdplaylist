@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Tdplaylist",
+  "name": "Today's task playlist",
   "icons": [],
   "start_url": ".",
   "display": "standalone",

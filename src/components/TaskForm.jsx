@@ -2,6 +2,7 @@ import React from "react";
 import Joi from "joi-browser";
 import Form from "../templates/Form";
 import { getOneTask, deleteTask } from "../services/taskService";
+import { currentDateToLocalTime } from "../utils/formatDate";
 
 class TaskForm extends Form {
   state = {
@@ -30,15 +31,17 @@ class TaskForm extends Form {
 
       data = data[0];
 
-      let month =
-        new Date().getMonth() + 1 < 10
-          ? "0" + (new Date().getMonth() + 1)
-          : new Date().getMonth() + 1;
-      let date =
-        new Date().getDate() < 10
-          ? "0" + new Date().getDate()
-          : new Date().getDate();
-      const todaysDate = new Date().getFullYear() + "-" + month + "-" + date;
+      // let month =
+      //   new Date().getMonth() + 1 < 10
+      //     ? "0" + (new Date().getMonth() + 1)
+      //     : new Date().getMonth() + 1;
+      // let date =
+      //   new Date().getDate() < 10
+      //     ? "0" + new Date().getDate()
+      //     : new Date().getDate();
+      // const todaysDate = new Date().getFullYear() + "-" + month + "-" + date;
+
+      const todaysDate = currentDateToLocalTime();
 
       // const todayGmt = new Date().toGMTString().slice(0, 16);
       const dueYear = data.dueDate ? data.dueDate.substring(0, 4) : 0;

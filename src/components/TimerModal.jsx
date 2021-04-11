@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
 // add mins counted to task selected
-//  mins counted is a prop
-//  task selected is from this component
+// mins counted is a prop
+// task selected is from this component
 // start break timer if checked
-//  whether to start break is from this component
+// whether to start break is from this component
 
 function TimerModal(props) {
-  const MINS_TO_ADD = 25;
+  const MINS_TO_ADD = props.timerTime / 60;
   const [taskId, setTaskId] = useState("");
   const [startBreak, setStartBreak] = useState(props.isBreak);
 
@@ -24,7 +24,6 @@ function TimerModal(props) {
       return;
     }
     let task = props.taskList.filter((t) => t._id === taskId);
-    console.log(task);
     task = task[0];
 
     const now = new Date();
@@ -35,7 +34,6 @@ function TimerModal(props) {
 
     let minsWorked = { [dateNow]: MINS_TO_ADD };
 
-    console.log(task);
     if (task["minsWorked"]) {
       if (task["minsWorked"][dateNow]) {
         minsWorked = { ...task.minsWorked };
@@ -77,7 +75,9 @@ function TimerModal(props) {
           </div>
 
           <select className="form-control" onChange={handleSelectTask}>
-            <option value="">Select task</option>
+            <option key="1" value="">
+              Select task
+            </option>
             {props.taskList.map((t) => (
               <option key={t._id} value={t._id}>
                 {t.title}

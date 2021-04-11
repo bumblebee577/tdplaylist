@@ -2,15 +2,13 @@ import React, { Component } from "react";
 
 class Timer extends Component {
   state = {
-    timeSetTo: this.props.isBreak ? 5 : 25,
-    timeInSecs: this.props.isBreak ? 5 * 60 : 25 * 60,
     isRunning: false,
     timerInterval: undefined,
   };
 
   formatTime = () => {
-    let mins = Math.floor(this.state.timeInSecs / 60);
-    let secs = Math.floor(this.state.timeInSecs % 60);
+    let mins = Math.floor(this.props.timerTime / 60);
+    let secs = Math.floor(this.props.timerTime % 60);
 
     mins = mins < 10 ? "0" + mins : mins + "";
     secs = secs < 10 ? "0" + secs : secs + "";
@@ -19,14 +17,11 @@ class Timer extends Component {
   };
 
   startTimer = () => {
-    if (this.state.timeInSecs > 0) {
-      this.setState((state) => ({
-        timeInSecs: state.timeInSecs - 1,
-      }));
+    if (this.props.timerTime > 0) {
+      this.props.getTimeSet(this.props.timerTime - 1);
     } else {
       clearInterval(this.state.timerInterval);
       this.setState({
-        timeInSec: 0,
         isRunning: false,
         timerInterval: undefined,
       });
@@ -53,33 +48,36 @@ class Timer extends Component {
         isRunning: true,
         timerInterval: setInterval(this.startTimer, 1000),
       });
+      // this.props.getTimeSet(this.state.timeSetTo);
     }
   };
 
   handleResetBtn = () => {
-    let timeInMin = 25;
-    this.setState({
-      timeInSecs: timeInMin * 60,
-    });
+    this.props.getTimeSet(25 * 60);
   };
 
   handleIncrement = () => {
-    if (this.state.timeInSecs < 60 * 60) {
-      let timeInMin = this.state.timeInSecs / 60 + 1;
-      this.setState((state) => ({
-        timeInSecs: timeInMin * 60,
-      }));
+    if (this.props.timerTime < 60 * 60) {
+      this.props.getTimeSet(this.props.timerTime + 60);
+      // this.setState((state) => ({
+      //   timeInSecs: timeSetTo * 60,
+      //   timeSetTo,
+      // }));
     }
   };
 
   handleDecrement = () => {
-    if (this.state.timeInSecs > 60) {
-      let timeInMin = this.state.timeInSecs / 60 - 1;
-
-      this.setState((state) => ({
-        timeInSecs: timeInMin * 60,
-      }));
+    if (this.props.timerTime > 60) {
+      this.props.getTimeSet(this.props.timerTime - 60);
+      // this.setState((state) => ({
+      //   timeInSecs: timeSetTo * 60,
+      //   timeSetTo,
+      // }));
     }
+  };
+
+  handleWorkBreakBtn = () => {
+    this.props.handleShowTimerModal();
   };
 
   render() {
@@ -91,7 +89,7 @@ class Timer extends Component {
           <button
             type="button"
             className="btn btn-light"
-            onClick={this.props.handleShowTimerModal}
+            onClick={this.handleWorkBreakBtn}
           >
             {this.props.isBreak ? "Break" : "Work"}
           </button>

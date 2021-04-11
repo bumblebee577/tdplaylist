@@ -3,13 +3,15 @@ import { getAllTasks } from "../services/taskService";
 import auth from "../services/authService";
 import { Pie, Bar } from "react-chartjs-2";
 import { ReactComponent as PomodoroSvg } from "../assets/tomato-svgrepo-com.svg";
+import {
+  currentDateToLocalTime,
+  currentYear,
+  currentMonth,
+} from "../utils/formatDate";
 
 class Report extends Component {
   TODAY = new Date();
   CURR_DAY = this.TODAY.getDay();
-  CURR_DATE = this.TODAY.getDate();
-  CURR_MONTH = this.TODAY.getMonth() + 1;
-  CURR_YEAR = this.TODAY.getFullYear();
 
   DAYS_OF_WEEK = ["mon", "tue", "wed", "thur", "fri", "sat", "sun"];
   COLORS_WEEK = [
@@ -105,7 +107,7 @@ class Report extends Component {
 
       const todayTotal = this.getToday(allMinsObj);
       const weekTotal = minsThisWeek.reduce((acc, curr) => acc + curr, 0);
-      const monthTotal = minsThisYear[this.CURR_MONTH - 1];
+      const monthTotal = minsThisYear[parseInt(currentMonth()) - 1];
       const yearTotal = minsThisYear.reduce((acc, curr) => acc + curr, 0);
       const total = this.getTotal(allMinsObj);
 
@@ -122,8 +124,7 @@ class Report extends Component {
   }
 
   getToday = (allMinsObj) => {
-    const sinceToday =
-      this.CURR_YEAR + "-" + this.CURR_MONTH + "-" + this.CURR_DATE;
+    const sinceToday = currentDateToLocalTime();
 
     const minsToday = allMinsObj.reduce((acc, curr) => {
       if (curr && curr[sinceToday]) {
@@ -167,7 +168,7 @@ class Report extends Component {
         let dates = Object.keys(curr);
         dates.forEach(
           (date) =>
-            parseInt(date.substring(0, 4)) === this.CURR_YEAR &&
+            date.substring(0, 4) === currentYear() &&
             (acc[parseInt(date.substring(5, 7)) - 1] += parseInt(curr[date]))
         );
       }
@@ -236,11 +237,13 @@ class Report extends Component {
               </tr>
               <tr>
                 <td>{(this.state.monthTotal / 60).toFixed(2)} hrs</td>
-                <td>Month - {this.MONTHS_OF_YEAR[this.CURR_MONTH - 1]}</td>
+                <td>
+                  Month - {this.MONTHS_OF_YEAR[parseInt(currentMonth()) - 1]}
+                </td>
               </tr>
               <tr>
                 <td>{(this.state.yearTotal / 60).toFixed(2)} hrs</td>
-                <td>Year - {this.CURR_YEAR}</td>
+                <td>Year - {currentYear()}</td>
               </tr>
               <tr>
                 <td>{(this.state.total / 60).toFixed(2)} hrs</td>

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
-
 import { getAllTasks, saveTask, addTimeToTask } from "./services/taskService";
 import { getAllGoals, saveGoal } from "./services/goalService";
 import auth from "./services/authService";
+import FrontPage from "./components/FrontPage";
 import Agenda from "./components/Agenda";
 import Report from "./components/Report";
 import TaskTable from "./components/TaskTable";
@@ -21,6 +21,9 @@ import Settings from "./components/Settings";
 import "./App.css";
 import TimerModal from "./components/TimerModal";
 
+const MINS = 25;
+const SECS_PER_MIN = 60;
+
 class App extends Component {
   state = {
     user: {},
@@ -28,6 +31,8 @@ class App extends Component {
     goalList: [],
     showTimerModal: false,
     isBreak: false,
+    timerTime: MINS * SECS_PER_MIN,
+    newVisitor: true,
   };
 
   async componentDidMount() {
@@ -35,11 +40,18 @@ class App extends Component {
     if (user) {
       const { data: taskList } = await getAllTasks(user._id);
       const { data: goalList } = await getAllGoals(user._id);
+      let newVisitor = await sessionStorage.getItem("newVisitor");
+      if (newVisitor === "false") {
+        newVisitor = false;
+      } else {
+        newVisitor = true;
+      }
 
       this.setState({
         user,
         taskList,
         goalList,
+        newVisitor,
       });
     }
   }
@@ -167,99 +179,123 @@ class App extends Component {
     });
   };
 
+  getTimeSet = (tTime) => {
+    this.setState({
+      timerTime: tTime,
+    });
+  };
+
+  handleEntry = async () => {
+    const newVisitor = !this.state.newVisitor;
+    await this.setState({
+      newVisitor,
+    });
+
+    window.sessionStorage.setItem("newVisitor", this.state.newVisitor);
+  };
+
   render() {
     return (
-      <div className="wrapper">
-        <Sidebar user={this.state.user} />
+      <>
+        {this.state.newVisitor ? (
+          <FrontPage handleEntry={this.handleEntry} />
+        ) : (
+          <div className="wrapper">
+            <Sidebar user={this.state.user} />
 
-        <TimerModal
-          showTimerModal={this.state.showTimerModal}
-          handleHidTimerModal={this.handleHidTimerModal}
-          taskList={this.state.taskList}
-          handleAddTimeToTask={this.handleAddTimeToTask}
-          handleSetTimerBreak={this.handleSetTimerBreak}
-          isBreak={this.state.isBreak}
-        />
-
-        <div className="content">
-          <header>
-            <Timer
-              handleShowTimerModal={this.handleShowTimerModal}
+            <TimerModal
+              showTimerModal={this.state.showTimerModal}
+              handleHidTimerModal={this.handleHidTimerModal}
+              taskList={this.state.taskList}
+              handleAddTimeToTask={this.handleAddTimeToTask}
+              handleSetTimerBreak={this.handleSetTimerBreak}
               isBreak={this.state.isBreak}
+              timerTime={this.state.timerTime}
             />
-          </header>
 
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route
-            path="/agenda"
-            exact
-            render={(props) => (
-              <Agenda {...props} taskList={this.state.taskList} />
-            )}
-          />
-          <Route
-            path="/tasks"
-            render={(props) => (
-              <TaskTable
-                {...props}
-                taskList={this.state.taskList}
-                handleAddTask={this.handleAddTask}
-              />
-            )}
-          />
-          <Route
-            path="/taskForm/:ownerId/:id"
-            render={(props) => (
-              <TaskForm
-                {...props}
-                handleAddTask={this.handleAddTask}
-                goalList={this.state.goalList}
-              />
-            )}
-          />
-          <Route
-            path="/taskForm"
-            render={(props) => (
-              <TaskForm
-                {...props}
-                handleAddTask={this.handleAddTask}
-                goalList={this.state.goalList}
-              />
-            )}
-            exact
-          />
+            <div className="content">
+              <header>
+                <Timer
+                  handleShowTimerModal={this.handleShowTimerModal}
+                  isBreak={this.state.isBreak}
+                  getTimeSet={this.getTimeSet}
+                  timerTime={this.state.timerTime}
+                />
+              </header>
 
-          <Route
-            path="/goals"
-            render={(props) => (
-              <GoalTable
-                {...props}
-                goalList={this.state.goalList}
-                handleAddGoal={this.handleAddGoal}
+              <Route path="/login" component={Login} />
+              <Route path="/register" component={Register} />
+              <Route
+                path="/agenda"
+                exact
+                render={(props) => (
+                  <Agenda {...props} taskList={this.state.taskList} />
+                )}
               />
-            )}
-          />
-          <Route
-            path="/goalForm/:ownerId/:id"
-            render={(props) => (
-              <GoalForm {...props} handleAddGoal={this.handleAddGoal} />
-            )}
-          />
-          <Route
-            path="/goalForm"
-            render={(props) => (
-              <GoalForm {...props} handleAddGoal={this.handleAddGoal} />
-            )}
-            exact
-          />
-          <Route path="/report" component={Report} />
-          <Route path="/settings" component={Settings} />
-          <Route path="/changePw" component={ChangePasswordForm} />
+              <Route
+                path="/tasks"
+                render={(props) => (
+                  <TaskTable
+                    {...props}
+                    taskList={this.state.taskList}
+                    handleAddTask={this.handleAddTask}
+                  />
+                )}
+              />
+              <Route
+                path="/taskForm/:ownerId/:id"
+                render={(props) => (
+                  <TaskForm
+                    {...props}
+                    handleAddTask={this.handleAddTask}
+                    goalList={this.state.goalList}
+                  />
+                )}
+              />
+              <Route
+                path="/taskForm"
+                render={(props) => (
+                  <TaskForm
+                    {...props}
+                    handleAddTask={this.handleAddTask}
+                    goalList={this.state.goalList}
+                  />
+                )}
+                exact
+              />
 
-          <Route path="/logout" component={Logout} />
-        </div>
-      </div>
+              <Route
+                path="/goals"
+                render={(props) => (
+                  <GoalTable
+                    {...props}
+                    goalList={this.state.goalList}
+                    handleAddGoal={this.handleAddGoal}
+                  />
+                )}
+              />
+              <Route
+                path="/goalForm/:ownerId/:id"
+                render={(props) => (
+                  <GoalForm {...props} handleAddGoal={this.handleAddGoal} />
+                )}
+              />
+              <Route
+                path="/goalForm"
+                render={(props) => (
+                  <GoalForm {...props} handleAddGoal={this.handleAddGoal} />
+                )}
+                exact
+              />
+              <Route path="/report" component={Report} />
+              <Route path="/settings" component={Settings} />
+              <Route path="/changePw" component={ChangePasswordForm} />
+
+              <Route path="/logout" component={Logout} />
+            </div>
+          </div>
+        )}
+      </>
     );
   }
 }

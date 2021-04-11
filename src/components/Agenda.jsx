@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { currentDateToLocalTime } from "../utils/formatDate";
 
 let todaysDateDisplay = new Date().toDateString();
 
@@ -15,15 +16,17 @@ function Agenda({ taskList }) {
     }
   };
 
-  let month =
-    new Date().getMonth() + 1 < 10
-      ? "0" + (new Date().getMonth() + 1)
-      : new Date().getMonth() + 1;
-  let date =
-    new Date().getDate() < 10
-      ? "0" + new Date().getDate()
-      : new Date().getDate();
-  const todaysDate = new Date().getFullYear() + "-" + month + "-" + date;
+  // let month =
+  //   new Date().getMonth() + 1 < 10
+  //     ? "0" + (new Date().getMonth() + 1)
+  //     : new Date().getMonth() + 1;
+  // let date =
+  //   new Date().getDate() < 10
+  //     ? "0" + new Date().getDate()
+  //     : new Date().getDate();
+  // const todaysDate = new Date().getFullYear() + "-" + month + "-" + date;
+
+  const todaysDate = currentDateToLocalTime();
 
   const todaysTask = taskList.filter(
     (t) => t.scheduled && t.scheduled.substring(0, 10) === todaysDate
