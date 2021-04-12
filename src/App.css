@@ -96,6 +96,8 @@ a:hover {
   padding: 10px;
 }
 
+/* Table Component */
+
 .itemTable {
   width: 85%;
   margin: 0 auto;
@@ -115,25 +117,20 @@ a:hover {
 }
 
 .title {
-  width: 25%;
+  width: 35%;
 }
 
-.hours {
+.modal_row_item {
   width: 10%;
+  font-size: 16px;
   text-align: center;
+  cursor: pointer;
+  color: #007bff;
 }
 
-.hours div {
-  font-size: 20px;
-  font-weight: 350;
-}
-
-.due {
-  width: 10%;
-}
-
-.status {
-  width: 10%;
+.modal_row_item:hover {
+  font-weight: bolder;
+  color: #0056b3;
 }
 
 .complete {
@@ -143,6 +140,8 @@ a:hover {
 .table {
   margin-top: 10px;
 }
+
+/* Timer Component */
 
 .timerC {
   text-align: center;
@@ -187,6 +186,8 @@ a:hover {
   display: flex;
   column-gap: 10px;
 }
+
+/* Report Component */
 
 .reportC {
   display: flex;

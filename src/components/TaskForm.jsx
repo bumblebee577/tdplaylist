@@ -31,19 +31,8 @@ class TaskForm extends Form {
 
       data = data[0];
 
-      // let month =
-      //   new Date().getMonth() + 1 < 10
-      //     ? "0" + (new Date().getMonth() + 1)
-      //     : new Date().getMonth() + 1;
-      // let date =
-      //   new Date().getDate() < 10
-      //     ? "0" + new Date().getDate()
-      //     : new Date().getDate();
-      // const todaysDate = new Date().getFullYear() + "-" + month + "-" + date;
-
       const todaysDate = currentDateToLocalTime();
 
-      // const todayGmt = new Date().toGMTString().slice(0, 16);
       const dueYear = data.dueDate ? data.dueDate.substring(0, 4) : 0;
       const schedYear = data.scheduled ? data.scheduled.substring(0, 4) : 0;
       const minsToday = data.minsWorked ? data.minsWorked[todaysDate] : null;

@@ -6,18 +6,15 @@ your time. Check out the live website at [tdplaylist.xyz](http://tdplaylist.xyz/
 
 # Technologies
 
-### Front-end
+### Front-end for tdplaylist web app
 
 - [React app](https://reactjs.org/docs/create-a-new-react-app.html)
 - [Bootstrap](https://getbootstrap.com/2.3.2/)
 - [Chart.js](https://www.chartjs.org/)
 
-### Back-end
+## Back-end for tdplaylist web app
 
-- Node.js
-- Express
-- MongoDB
-- Jest
+- tdserver repo
 
 # Worklist
 

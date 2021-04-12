@@ -189,21 +189,26 @@ class TaskTable extends Table {
                 >
                   {t.goal}
                 </td>
-                <td className="hours" key={i + 1 + "minsWorked"}>
-                  <div className="badge badge-secondary m2">
-                    {t.minsWorked
-                      ? Object.values(t.minsWorked).reduce(
-                          (a, c) => a + parseInt(c),
-                          0
-                        )
-                      : 0}{" "}
-                  </div>
+                <td
+                  className={
+                    this.state.checked[t._id]
+                      ? "modal_row_item  complete  "
+                      : "modal_row_item incomplete  "
+                  }
+                  key={i + 1 + "minsWorked"}
+                >
+                  {t.minsWorked
+                    ? Object.values(t.minsWorked).reduce(
+                        (a, c) => a + parseInt(c),
+                        0
+                      )
+                    : 0}{" "}
                 </td>
                 <td
                   className={
                     this.state.checked[t._id]
-                      ? "scheduled  complete  "
-                      : "scheduled incomplete  "
+                      ? "modal_row_item  complete  "
+                      : "modal_row_item incomplete  "
                   }
                   key={i + 1 + "scheduled"}
                 >
@@ -212,10 +217,13 @@ class TaskTable extends Table {
                 <td
                   className={
                     this.state.checked[t._id]
-                      ? "status  complete  "
-                      : "status  incomplete  "
+                      ? "modal_row_item complete"
+                      : "modal_row_item incomplete"
                   }
                   key={i + 1 + "status"}
+                  onClick={() =>
+                    this.props.handleGetTaskForModal(t._id, "status")
+                  }
                 >
                   {t.status}
                 </td>

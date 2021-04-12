@@ -17,6 +17,7 @@ import Timer from "./components/Timer";
 
 import "./App.css";
 import TimerModal from "./components/TimerModal";
+import FormModal from "./components/FormModal";
 
 const MINS = 25;
 const SECS_PER_MIN = 60;
@@ -26,10 +27,13 @@ class App extends Component {
     user: {},
     taskList: [],
     goalList: [],
-    showTimerModal: false,
     isBreak: false,
     setTime: MINS * SECS_PER_MIN,
     timerTime: MINS * SECS_PER_MIN,
+    showTimerModal: false,
+    showFormModal: false,
+    taskObj: {},
+    taskField: "",
   };
 
   async componentDidMount() {
@@ -200,6 +204,15 @@ class App extends Component {
     window.location.reload();
   };
 
+  handleGetTaskForModal = (id, type) => {
+    const taskIndex = this.state.taskList.findIndex((task) => task._id === id);
+
+    const taskObj = this.state.taskList[taskIndex];
+    console.log(taskObj);
+
+    console.log(type);
+  };
+
   render() {
     return (
       <>
@@ -218,6 +231,13 @@ class App extends Component {
               handleHidTimerModal={this.handleHidTimerModal}
               handleAddTimeToTask={this.handleAddTimeToTask}
               handleSetTimerBreak={this.handleSetTimerBreak}
+            />
+
+            <FormModal
+              showFormModal={this.state.showFormModal}
+              taskObj={this.state.taskObj}
+              handleAddTask={this.handleAddTask}
+              taskField={this.state.taskField}
             />
 
             <div className="content">
@@ -248,6 +268,7 @@ class App extends Component {
                     {...props}
                     taskList={this.state.taskList}
                     handleAddTask={this.handleAddTask}
+                    handleGetTaskForModal={this.handleGetTaskForModal}
                   />
                 )}
               />
