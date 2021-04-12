@@ -4,7 +4,6 @@ import { getAllTasks, saveTask, addTimeToTask } from "./services/taskService";
 import { getAllGoals, saveGoal } from "./services/goalService";
 import auth from "./services/authService";
 import FrontPage from "./components/FrontPage";
-import Agenda from "./components/Agenda";
 import Report from "./components/Report";
 import TaskTable from "./components/TaskTable";
 import TaskForm from "./components/TaskForm";
@@ -15,8 +14,6 @@ import Logout from "./components/Logout";
 import GoalTable from "./components/GoalTable";
 import GoalForm from "./components/GoalForm";
 import Timer from "./components/Timer";
-import ChangePasswordForm from "./components/ChangePasswordForm";
-import Settings from "./components/Settings";
 
 import "./App.css";
 import TimerModal from "./components/TimerModal";
@@ -224,13 +221,7 @@ class App extends Component {
 
               <Route path="/login" component={Login} />
               <Route path="/register" component={Register} />
-              <Route
-                path="/agenda"
-                exact
-                render={(props) => (
-                  <Agenda {...props} taskList={this.state.taskList} />
-                )}
-              />
+
               <Route
                 path="/tasks"
                 render={(props) => (
@@ -287,8 +278,6 @@ class App extends Component {
                 exact
               />
               <Route path="/report" component={Report} />
-              <Route path="/settings" component={Settings} />
-              <Route path="/changePw" component={ChangePasswordForm} />
 
               <Route path="/logout" component={Logout} />
             </div>

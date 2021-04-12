@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { currentDateToLocalTime } from "./../utils/formatDate";
 import Table from "../templates/Table";
 import ButtonGroupFilter from "./ButtonGroupFilter";
 import _ from "lodash";
@@ -10,19 +11,21 @@ class TaskTable extends Table {
     columns: [
       { id: "num", label: "#" },
       { id: "title", label: "Title" },
+      { id: "goal", label: "Goal" },
       { id: "minsWorked", label: "Mins Wrked" },
       { id: "scheduled", label: "Scheduled" },
-      { id: "dueDate", label: "Due Date" },
       { id: "status", label: "Status" },
     ],
     sortBy: { id: "title", order: "asc" },
-    taskFilter: "all",
+    taskFilter: "agenda",
+    checked: {},
   };
 
   sendAddItem = () => {
     this.props.handleAddTask({ title: this.state.taskTitle });
     this.setState({
       taskTitle: "",
+      taskFilter: "all",
     });
   };
 
@@ -33,9 +36,19 @@ class TaskTable extends Table {
   };
 
   filterTaskList = () => {
-    return this.props.taskList.filter(
-      (t) => t.status === this.state.taskFilter
-    );
+    if (this.state.taskFilter === "all") {
+      return this.props.taskList.filter((t) => t.status !== "completed");
+    } else if (this.state.taskFilter === "agenda") {
+      return this.props.taskList.filter((t) => {
+        return typeof t.scheduled === "string"
+          ? currentDateToLocalTime() === t.scheduled.slice(0, 10)
+          : false;
+      });
+    } else {
+      return this.props.taskList.filter(
+        (t) => t.status === this.state.taskFilter
+      );
+    }
   };
 
   filterTaskIncomplete = () => {
@@ -53,11 +66,23 @@ class TaskTable extends Table {
     });
   };
 
+  handleChecked = (id) => {
+    let newChecked = { ...this.state.checked };
+
+    if (this.state.checked[id]) {
+      delete newChecked[id];
+      this.setState({
+        checked: newChecked,
+      });
+    } else {
+      this.setState({
+        checked: { ...newChecked, [id]: true },
+      });
+    }
+  };
+
   render() {
-    const filteredTaskList =
-      this.state.taskFilter === "all"
-        ? this.filterTaskIncomplete()
-        : this.filterTaskList();
+    const filteredTaskList = this.filterTaskList();
 
     const sortedTaskList = _.orderBy(
       filteredTaskList,
@@ -95,9 +120,14 @@ class TaskTable extends Table {
           taskFilter={this.state.taskFilter}
           handleFilterTask={this.handleFilterTask}
         />
+        {this.state.taskFilter === "agenda" ? (
+          <h2>{new Date().toDateString()}</h2>
+        ) : null}
 
         <table className="table">
-          {this.renderHeader()}
+          {this.state.taskFilter === "agenda"
+            ? this.renderHeader("Done")
+            : this.renderHeader()}
 
           <tbody>
             {sortedTaskList.map((t, i) => (
@@ -108,11 +138,28 @@ class TaskTable extends Table {
                 <td className="num" key={i + 1}>
                   {i + 1}
                 </td>
-                <td className="title" key={i + 1 + "title"}>
+                <td
+                  className={
+                    this.state.checked[t._id]
+                      ? "title complete  "
+                      : "title incomplete  "
+                  }
+                  key={i + 1 + "title"}
+                >
                   <Link to={`/taskForm/${t.ownerId}/${t._id}`}>
                     {" "}
                     {t.title}{" "}
                   </Link>
+                </td>
+                <td
+                  className={
+                    this.state.checked[t._id]
+                      ? "goal complete  "
+                      : "goal incomplete  "
+                  }
+                  key={i + 1 + "goal"}
+                >
+                  {t.goal}
                 </td>
                 <td className="hours" key={i + 1 + "minsWorked"}>
                   <div className="badge badge-secondary m2">
@@ -124,15 +171,34 @@ class TaskTable extends Table {
                       : 0}{" "}
                   </div>
                 </td>
-                <td className="scheduled" key={i + 1 + "scheduled"}>
+                <td
+                  className={
+                    this.state.checked[t._id]
+                      ? "scheduled  complete  "
+                      : "scheduled incomplete  "
+                  }
+                  key={i + 1 + "scheduled"}
+                >
                   {this.formatDate(t.scheduled)}
                 </td>
-                <td className="due" key={i + 1 + "dueDate"}>
-                  {this.formatDate(t.dueDate)}
+                <td
+                  className={
+                    this.state.checked[t._id]
+                      ? "status  complete  "
+                      : "status  incomplete  "
+                  }
+                  key={i + 1 + "status"}
+                >
+                  {t.status}
                 </td>
-                <td className="status" key={i + 1 + "status"}>
-                  {this.formatDate(t.status)}
-                </td>
+                {this.state.taskFilter === "agenda" && (
+                  <td className="done" key={i + 1 + "done"}>
+                    <input
+                      type="checkbox"
+                      onChange={() => this.handleChecked(t._id)}
+                    />
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>

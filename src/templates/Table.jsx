@@ -31,7 +31,7 @@ class Table extends Component {
     }
   };
 
-  renderHeader = () => {
+  renderHeader = (extraCol) => {
     return (
       <thead>
         <tr>
@@ -40,6 +40,7 @@ class Table extends Component {
               {h.label} {this.state.sortBy.id === h.id && this.renderSortIcon()}
             </th>
           ))}
+          <th>{extraCol}</th>
         </tr>
       </thead>
     );

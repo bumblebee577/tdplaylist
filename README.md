@@ -22,12 +22,11 @@ your time. Check out the live website at [tdplaylist.xyz](http://tdplaylist.xyz/
 # Worklist
 
 - Allow user to schedule, and complete tasks on task table
-- Display agenda as a filter on task table rather than a sidebar tab
-- Make sidebar mobile friendly
-- Add integration with spotify api
-- Allow anonymous users to use without signing up
-- Allow users to change email and password
+- Persist agenda done column by adding it as field in db
+- Make sidebar and table mobile friendly
 - When timer goes to 0 should prompt user to assign time to a task and if they want to start break/skip break
+- Add integration with spotify api
+- Report on total time worked per task, per goal
 
 # Existing Features
 
