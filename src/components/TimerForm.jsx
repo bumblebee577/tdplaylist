@@ -1,14 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import TimerForm from "./TimerForm";
 
-// add mins counted to task selected
-// mins counted is a prop
-// task selected is from this component
-// start break timer if checked
-// whether to start break is from this component
-
-function TimerModal(props) {
+const TimerForm = (props) => {
   const MINS_TO_ADD = props.timerTime / 60;
   const [taskId, setTaskId] = useState("");
   const [startBreak, setStartBreak] = useState(props.isBreak);
@@ -57,7 +50,7 @@ function TimerModal(props) {
   };
 
   return (
-    <Modal show={props.showTimerModal}>
+    <>
       <Modal.Header>
         <h5>Add {MINS_TO_ADD} mins to task:</h5>
       </Modal.Header>
@@ -103,8 +96,8 @@ function TimerModal(props) {
           Submit
         </button>
       </div>
-    </Modal>
+    </>
   );
-}
+};
 
-export default TimerModal;
+export default TimerForm;

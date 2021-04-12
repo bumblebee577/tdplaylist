@@ -65,7 +65,7 @@ Login Form
 
 ### 5. Reports
 
-**Four dashboard widgets**
+Four dashboard widgets
 
 - widget 1 displays a pomodoro/tomato for every 25 minutes worked today
 - widget 2 displays a breakdown of the number of hours worked today, this week, this month, this year and in total

@@ -4,13 +4,6 @@ import { NavLink } from "react-router-dom";
 const nonUserView = () => {
   return (
     <React.Fragment>
-      <NavLink to="/tasks">
-        <li className="nav-item">
-          {" "}
-          <i className="fa fa-tasks" aria-hidden="true"></i>
-          Tasks
-        </li>
-      </NavLink>
       <NavLink to="/register">
         <li className="nav-item">
           <i className="fa fa-id-badge" aria-hidden="true"></i>
@@ -31,14 +24,6 @@ const nonUserView = () => {
 const userView = () => {
   return (
     <React.Fragment>
-      <NavLink to="/agenda">
-        <li className="nav-item">
-          {" "}
-          <i className="fa fa-calendar-check-o" aria-hidden="true"></i>
-          Agenda
-        </li>
-      </NavLink>
-
       <NavLink to="/tasks">
         <li className="nav-item">
           {" "}

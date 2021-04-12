@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import { getAllTasks, saveTask, addTimeToTask } from "./services/taskService";
 import { getAllGoals, saveGoal } from "./services/goalService";
 import auth from "./services/authService";
@@ -32,7 +32,6 @@ class App extends Component {
     showTimerModal: false,
     isBreak: false,
     timerTime: MINS * SECS_PER_MIN,
-    newVisitor: true,
   };
 
   async componentDidMount() {
@@ -40,18 +39,11 @@ class App extends Component {
     if (user) {
       const { data: taskList } = await getAllTasks(user._id);
       const { data: goalList } = await getAllGoals(user._id);
-      let newVisitor = await sessionStorage.getItem("newVisitor");
-      if (newVisitor === "false") {
-        newVisitor = false;
-      } else {
-        newVisitor = true;
-      }
 
       this.setState({
         user,
         taskList,
         goalList,
-        newVisitor,
       });
     }
   }
@@ -186,18 +178,14 @@ class App extends Component {
   };
 
   handleEntry = async () => {
-    const newVisitor = !this.state.newVisitor;
-    await this.setState({
-      newVisitor,
-    });
-
-    window.sessionStorage.setItem("newVisitor", this.state.newVisitor);
+    window.sessionStorage.setItem("newVisitor", "false");
+    window.location.reload();
   };
 
   render() {
     return (
       <>
-        {this.state.newVisitor ? (
+        {sessionStorage.getItem("newVisitor") !== "false" ? (
           <FrontPage handleEntry={this.handleEntry} />
         ) : (
           <div className="wrapper">
@@ -222,6 +210,17 @@ class App extends Component {
                   timerTime={this.state.timerTime}
                 />
               </header>
+              <Route
+                exact
+                path="/"
+                render={() =>
+                  this.state.user._id ? (
+                    <Redirect to="/tasks" />
+                  ) : (
+                    <Redirect to="/register" />
+                  )
+                }
+              />
 
               <Route path="/login" component={Login} />
               <Route path="/register" component={Register} />

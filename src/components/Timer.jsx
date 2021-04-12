@@ -91,7 +91,7 @@ class Timer extends Component {
             className="btn btn-light"
             onClick={this.handleWorkBreakBtn}
           >
-            {this.props.isBreak ? "Break" : "Work"}
+            Log time
           </button>
           <span className="timerLabelToolTip">
             Click to assign time to a Task

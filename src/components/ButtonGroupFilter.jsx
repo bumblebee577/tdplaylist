@@ -2,7 +2,14 @@ import React, { Component } from "react";
 
 class ButtonGroupFilter extends Component {
   render() {
-    const taskStatusList = ["all", "new", "inprogress", "onhold", "completed"];
+    const taskStatusList = [
+      "agenda",
+      "all",
+      "new",
+      "inprogress",
+      "onhold",
+      "completed",
+    ];
 
     return (
       <div className="btn-group" role="group">

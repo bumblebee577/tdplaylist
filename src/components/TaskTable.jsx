@@ -10,9 +10,10 @@ class TaskTable extends Table {
     columns: [
       { id: "num", label: "#" },
       { id: "title", label: "Title" },
-      { id: "minsWorked", label: "Mins" },
+      { id: "minsWorked", label: "Mins Wrked" },
       { id: "scheduled", label: "Scheduled" },
       { id: "dueDate", label: "Due Date" },
+      { id: "status", label: "Status" },
     ],
     sortBy: { id: "title", order: "asc" },
     taskFilter: "all",
@@ -117,7 +118,7 @@ class TaskTable extends Table {
                   <div className="badge badge-secondary m2">
                     {t.minsWorked
                       ? Object.values(t.minsWorked).reduce(
-                          (a, c) => a + parseFloat(c),
+                          (a, c) => a + parseInt(c),
                           0
                         )
                       : 0}{" "}
@@ -128,6 +129,9 @@ class TaskTable extends Table {
                 </td>
                 <td className="due" key={i + 1 + "dueDate"}>
                   {this.formatDate(t.dueDate)}
+                </td>
+                <td className="status" key={i + 1 + "status"}>
+                  {this.formatDate(t.status)}
                 </td>
               </tr>
             ))}
