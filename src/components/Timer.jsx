@@ -18,7 +18,7 @@ class Timer extends Component {
 
   startTimer = () => {
     if (this.props.timerTime > 0) {
-      this.props.getTimeSet(this.props.timerTime - 1);
+      this.props.handleCountTime(this.props.timerTime - 1);
     } else {
       clearInterval(this.state.timerInterval);
       this.setState({
@@ -48,35 +48,29 @@ class Timer extends Component {
         isRunning: true,
         timerInterval: setInterval(this.startTimer, 1000),
       });
-      // this.props.getTimeSet(this.state.timeSetTo);
     }
   };
 
   handleResetBtn = () => {
-    this.props.getTimeSet(25 * 60);
+    this.props.handleCountTime(25 * 60);
+    this.props.handleSetTime(25 * 60);
   };
 
   handleIncrement = () => {
     if (this.props.timerTime < 60 * 60) {
-      this.props.getTimeSet(this.props.timerTime + 60);
-      // this.setState((state) => ({
-      //   timeInSecs: timeSetTo * 60,
-      //   timeSetTo,
-      // }));
+      this.props.handleCountTime(this.props.timerTime + 60);
+      this.props.handleSetTime(this.props.setTime + 60);
     }
   };
 
   handleDecrement = () => {
     if (this.props.timerTime > 60) {
-      this.props.getTimeSet(this.props.timerTime - 60);
-      // this.setState((state) => ({
-      //   timeInSecs: timeSetTo * 60,
-      //   timeSetTo,
-      // }));
+      this.props.handleCountTime(this.props.timerTime - 60);
+      this.props.handleSetTime(this.props.setTime - 60);
     }
   };
 
-  handleWorkBreakBtn = () => {
+  handleLogTimeBtn = () => {
     this.props.handleShowTimerModal();
   };
 
@@ -89,7 +83,7 @@ class Timer extends Component {
           <button
             type="button"
             className="btn btn-light"
-            onClick={this.handleWorkBreakBtn}
+            onClick={this.handleLogTimeBtn}
           >
             Log time
           </button>

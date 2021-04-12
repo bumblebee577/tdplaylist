@@ -4,6 +4,7 @@ import { currentDateToLocalTime } from "./../utils/formatDate";
 import Table from "../templates/Table";
 import ButtonGroupFilter from "./ButtonGroupFilter";
 import _ from "lodash";
+import { addDoneToTask } from "../services/taskService";
 
 class TaskTable extends Table {
   state = {
@@ -20,6 +21,19 @@ class TaskTable extends Table {
     taskFilter: "agenda",
     checked: {},
   };
+
+  componentDidMount() {
+    if (this.state.taskFilter === "agenda") {
+      let checked = this.props.taskList.reduce((a, c) => {
+        a[c._id] = c.done === currentDateToLocalTime() ? true : false;
+        return a;
+      }, {});
+
+      this.setState({
+        checked,
+      });
+    }
+  }
 
   sendAddItem = () => {
     this.props.handleAddTask({ title: this.state.taskTitle });
@@ -66,7 +80,12 @@ class TaskTable extends Table {
     });
   };
 
-  handleChecked = (id) => {
+  handleChecked = async (id) => {
+    let taskObj = {
+      id,
+      done: "",
+    };
+    let oldChecked = { ...this.state.checked };
     let newChecked = { ...this.state.checked };
 
     if (this.state.checked[id]) {
@@ -75,8 +94,17 @@ class TaskTable extends Table {
         checked: newChecked,
       });
     } else {
+      taskObj["done"] = currentDateToLocalTime();
       this.setState({
         checked: { ...newChecked, [id]: true },
+      });
+    }
+
+    try {
+      await addDoneToTask(taskObj);
+    } catch (ex) {
+      this.setState({
+        checked: oldChecked,
       });
     }
   };
@@ -196,6 +224,7 @@ class TaskTable extends Table {
                     <input
                       type="checkbox"
                       onChange={() => this.handleChecked(t._id)}
+                      checked={this.state.checked[t._id] ? true : false}
                     />
                   </td>
                 )}

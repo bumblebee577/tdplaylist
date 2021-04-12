@@ -28,6 +28,7 @@ class App extends Component {
     goalList: [],
     showTimerModal: false,
     isBreak: false,
+    setTime: MINS * SECS_PER_MIN,
     timerTime: MINS * SECS_PER_MIN,
   };
 
@@ -157,6 +158,14 @@ class App extends Component {
   };
 
   handleHidTimerModal = () => {
+    if (this.state.timerTime === 0) {
+      let setTime = MINS * SECS_PER_MIN;
+      let timerTime = MINS * SECS_PER_MIN;
+      this.setState({
+        setTime,
+        timerTime,
+      });
+    }
     this.setState({
       showTimerModal: false,
     });
@@ -168,9 +177,21 @@ class App extends Component {
     });
   };
 
-  getTimeSet = (tTime) => {
+  handleCountTime = (t) => {
+    if (t === 0) {
+      this.setState({
+        showTimerModal: true,
+      });
+    }
+
     this.setState({
-      timerTime: tTime,
+      timerTime: t,
+    });
+  };
+
+  handleSetTime = (t) => {
+    this.setState({
+      setTime: t,
     });
   };
 
@@ -190,34 +211,32 @@ class App extends Component {
 
             <TimerModal
               showTimerModal={this.state.showTimerModal}
-              handleHidTimerModal={this.handleHidTimerModal}
               taskList={this.state.taskList}
+              timerTime={this.state.timerTime}
+              setTime={this.state.setTime}
+              isBreak={this.state.isBreak}
+              handleHidTimerModal={this.handleHidTimerModal}
               handleAddTimeToTask={this.handleAddTimeToTask}
               handleSetTimerBreak={this.handleSetTimerBreak}
-              isBreak={this.state.isBreak}
-              timerTime={this.state.timerTime}
             />
 
             <div className="content">
               <header>
                 <Timer
-                  handleShowTimerModal={this.handleShowTimerModal}
-                  isBreak={this.state.isBreak}
-                  getTimeSet={this.getTimeSet}
                   timerTime={this.state.timerTime}
+                  setTime={this.state.setTime}
+                  isBreak={this.state.isBreak}
+                  handleShowTimerModal={this.handleShowTimerModal}
+                  handleSetTime={this.handleSetTime}
+                  handleCountTime={this.handleCountTime}
                 />
               </header>
-              <Route
-                exact
-                path="/"
-                render={() =>
-                  this.state.user._id ? (
-                    <Redirect to="/tasks" />
-                  ) : (
-                    <Redirect to="/register" />
-                  )
-                }
-              />
+
+              {this.state.user._id ? (
+                <Redirect from="/" to="/tasks" />
+              ) : (
+                <Redirect from="/" to="/register" />
+              )}
 
               <Route path="/login" component={Login} />
               <Route path="/register" component={Register} />

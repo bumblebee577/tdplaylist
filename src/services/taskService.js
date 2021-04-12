@@ -22,8 +22,14 @@ export function saveTask(task) {
 }
 
 export function addTimeToTask(taskObj) {
-  return http.patch(apiEndpoint + "/" + taskObj.id, {
+  return http.patch(apiEndpoint + "/minsworked/" + taskObj.id, {
     minsWorked: taskObj.minsWorked,
+  });
+}
+
+export function addDoneToTask(taskObj) {
+  return http.patch(apiEndpoint + "/done/" + taskObj.id, {
+    done: taskObj.done,
   });
 }
 

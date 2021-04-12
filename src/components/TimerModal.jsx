@@ -1,16 +1,11 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-// add mins counted to task selected
-// mins counted is a prop
-// task selected is from this component
-// start break timer if checked
-// whether to start break is from this component
-
 function TimerModal(props) {
-  const MINS_TO_ADD = Math.round(props.timerTime / 60);
+  const MINS_TO_ADD =
+    Math.round(props.setTime / 60) - Math.round(props.timerTime / 60);
   const [taskId, setTaskId] = useState("");
-  const [startBreak, setStartBreak] = useState(props.isBreak);
+  // const [startBreak, setStartBreak] = useState(props.isBreak);
 
   const handleSelectTask = (e) => {
     setTaskId(e.target.value);
@@ -19,7 +14,7 @@ function TimerModal(props) {
   const handleClickSubmit = () => {
     if (taskId === "") {
       console.log("Invalid task selection. No time added");
-      props.handleSetTimerBreak(startBreak);
+      // props.handleSetTimerBreak(startBreak);
       props.handleHidTimerModal();
       return;
     }
@@ -47,13 +42,13 @@ function TimerModal(props) {
       minsWorked,
     };
     props.handleAddTimeToTask(updateTask);
-    props.handleSetTimerBreak(startBreak);
+    // props.handleSetTimerBreak(startBreak);
     props.handleHidTimerModal();
   };
 
-  const handleBreakCheck = () => {
-    setStartBreak(!startBreak);
-  };
+  // const handleBreakCheck = () => {
+  //   setStartBreak(!startBreak);
+  // };
 
   return (
     <Modal show={props.showTimerModal}>
@@ -62,7 +57,7 @@ function TimerModal(props) {
       </Modal.Header>
       <Modal.Body>
         <div className="form-group">
-          <div className="form-check timer-checkbox">
+          {/* <div className="form-check timer-checkbox">
             <input
               className="form-check-input"
               type="checkbox"
@@ -72,7 +67,7 @@ function TimerModal(props) {
             <label className="form-check-label" htmlFor="gridCheck">
               {props.isBreak ? "Stop Break" : "Start Break"}
             </label>
-          </div>
+          </div> */}
 
           <select className="form-control" onChange={handleSelectTask}>
             <option key="1" value="">
