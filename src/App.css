@@ -1,6 +1,43 @@
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 760px),
+  (min-device-width: 768px) and (max-device-width: 1024px) {
+  /* Hide the sidebar */
   #navbar {
     display: none;
+  }
+
+  table thead {
+    display: none;
+  }
+
+  tr:nth-child(odd) {
+    background: #dfe6e9;
+    border: 2px solid gray;
+  }
+
+  /* tr:nth-child(even) {
+    border: 2px solid #007bff;
+  } */
+
+  tr td {
+    border-bottom: 1px dashed gray;
+  }
+
+  table td {
+    display: flex;
+    width: 100%;
+  }
+
+  table td::before {
+    content: attr(label);
+    font-weight: bold;
+    width: 120px;
+    min-width: 120px;
+    text-align: left;
+    margin: 0;
+  }
+
+  .reportC div {
+    width: 100% !important;
   }
 }
 
@@ -112,16 +149,7 @@ a:hover {
   margin-right: 5px;
 }
 
-.num {
-  width: 5%;
-}
-
-.title {
-  width: 35%;
-}
-
 .modal_row_item {
-  width: 10%;
   font-size: 16px;
   text-align: center;
   cursor: pointer;

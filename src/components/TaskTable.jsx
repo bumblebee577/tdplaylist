@@ -13,7 +13,7 @@ class TaskTable extends Table {
       { id: "num", label: "#" },
       { id: "title", label: "Title" },
       { id: "goal", label: "Goal" },
-      { id: "minsWorked", label: "Mins Wrked" },
+      { id: "minsWorked", label: "Mins" },
       { id: "scheduled", label: "Scheduled" },
       { id: "status", label: "Status" },
     ],
@@ -168,7 +168,7 @@ class TaskTable extends Table {
                     t.status === "completed" ? "complete" : "incomplete"
                   }
                 >
-                  <td className="num" key={i + 1}>
+                  <td className="num" key={i + 1} label="#">
                     {i + 1}
                   </td>
                   <td
@@ -179,6 +179,7 @@ class TaskTable extends Table {
                         : "title incomplete  "
                     }
                     key={i + 1 + "title"}
+                    label="Title"
                   >
                     <Link to={`/taskForm/${t.ownerId}/${t._id}`}>
                       {" "}
@@ -193,6 +194,7 @@ class TaskTable extends Table {
                         : "goal incomplete  "
                     }
                     key={i + 1 + "goal"}
+                    label="Goal"
                   >
                     {t.goal}
                   </td>
@@ -207,6 +209,7 @@ class TaskTable extends Table {
                     onClick={() =>
                       this.props.handleGetTaskForModal(t._id, "minswrked")
                     }
+                    label="Mins"
                   >
                     {t.minsWorked
                       ? Object.values(t.minsWorked).reduce(
@@ -226,6 +229,7 @@ class TaskTable extends Table {
                     onClick={() =>
                       this.props.handleGetTaskForModal(t._id, "scheduled")
                     }
+                    label="Scheduled"
                   >
                     {this.formatDate(t.scheduled)}
                   </td>
@@ -240,11 +244,12 @@ class TaskTable extends Table {
                     onClick={() =>
                       this.props.handleGetTaskForModal(t._id, "status")
                     }
+                    label="Status"
                   >
                     {t.status}
                   </td>
                   {this.state.taskFilter === "agenda" && (
-                    <td className="done" key={i + 1 + "done"}>
+                    <td className="done" key={i + 1 + "done"} label="Done">
                       <input
                         type="checkbox"
                         onChange={() => this.handleChecked(t._id)}

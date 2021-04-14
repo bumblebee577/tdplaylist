@@ -56,13 +56,17 @@ class GoalTable extends Table {
                 key={"row" + i + 1}
                 className={g.status === "completed" ? "complete" : "incomplete"}
               >
-                <td className="num" key={i + 1}>
+                <td className="num" key={i + 1} label="#">
                   {i + 1}
                 </td>
-                <td className="name" key={i + 1 + "name"}>
+                <td className="name" key={i + 1 + "name"} label="Name">
                   <Link to={`/goalForm/${g.ownerId}/${g._id}`}> {g.name} </Link>
                 </td>
-                <td className="dueDate" key={i + 1 + "dueDate"}>
+                <td
+                  className="dueDate"
+                  key={i + 1 + "dueDate"}
+                  label="Due Date"
+                >
                   {this.formatDate(g.dueDate)}
                 </td>
               </tr>

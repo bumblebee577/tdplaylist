@@ -222,32 +222,32 @@ class Report extends Component {
           <table className="table">
             <thead>
               <tr>
-                <th>Time</th>
-                <th>Span</th>
+                <th>Time Interval</th>
+                <th>Hours Worked</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>{(this.state.todayTotal / 60).toFixed(2)} hrs</td>
                 <td>Today</td>
+                <td>{(this.state.todayTotal / 60).toFixed(2)} hrs</td>
               </tr>
               <tr>
-                <td>{(this.state.weekTotal / 60).toFixed(2)} hrs</td>
                 <td>Week</td>
+                <td>{(this.state.weekTotal / 60).toFixed(2)} hrs</td>
               </tr>
               <tr>
-                <td>{(this.state.monthTotal / 60).toFixed(2)} hrs</td>
                 <td>
                   Month - {this.MONTHS_OF_YEAR[parseInt(currentMonth()) - 1]}
                 </td>
+                <td>{(this.state.monthTotal / 60).toFixed(2)} hrs</td>
               </tr>
               <tr>
-                <td>{(this.state.yearTotal / 60).toFixed(2)} hrs</td>
                 <td>Year - {currentYear()}</td>
+                <td>{(this.state.yearTotal / 60).toFixed(2)} hrs</td>
               </tr>
               <tr>
-                <td>{(this.state.total / 60).toFixed(2)} hrs</td>
                 <td>Total</td>
+                <td>{(this.state.total / 60).toFixed(2)} hrs</td>
               </tr>
             </tbody>
           </table>
