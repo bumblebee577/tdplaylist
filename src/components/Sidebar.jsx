@@ -46,14 +46,6 @@ const userView = () => {
         </li>
       </NavLink>
 
-      {/* <NavLink to="/settings">
-        <li className="nav-item">
-          {" "}
-          <i className="fa fa-cog" aria-hidden="true"></i>
-          Settings
-        </li>
-      </NavLink> */}
-
       <NavLink to="/logout">
         <li className="nav-item">
           {" "}
@@ -69,7 +61,7 @@ const Sidebar = (props) => {
   return (
     <nav id="navbar">
       <div className="nav-header">
-        <h3>TDPlaylist</h3>
+        <h3>Tdplaylist</h3>
       </div>
       <div className="nameOfUser">
         {props.user.name ? <p>{props.user.name}</p> : <p>Anonymous</p>}

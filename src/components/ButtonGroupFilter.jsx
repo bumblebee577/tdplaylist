@@ -12,7 +12,7 @@ class ButtonGroupFilter extends Component {
     ];
 
     return (
-      <div className="btn-group" role="group">
+      <div className="btn-group " role="group">
         {taskStatusList.map((s) => (
           <button
             type="button"

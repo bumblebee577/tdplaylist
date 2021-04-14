@@ -18,6 +18,7 @@ import Timer from "./components/Timer";
 import "./App.css";
 import TimerModal from "./components/TimerModal";
 import FormModal from "./components/FormModal";
+import MobileSidebar from "./components/MobileSidebar";
 
 const MINS = 25;
 const SECS_PER_MIN = 60;
@@ -256,6 +257,7 @@ class App extends Component {
             />
 
             <div className="content">
+              <MobileSidebar user={this.state.user} />
               <header>
                 <Timer
                   timerTime={this.state.timerTime}
