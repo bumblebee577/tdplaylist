@@ -18,10 +18,9 @@ your time. Check out the live website at [tdplaylist.xyz](http://tdplaylist.xyz/
 
 # Worklist
 
-- Allow user to schedule, and complete tasks on task table
 - Make sidebar and table mobile friendly
-- Add integration with spotify api
 - Report on total time worked per task, per goal
+- Add integration with spotify api
 
 # Existing Features
 

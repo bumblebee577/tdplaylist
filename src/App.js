@@ -97,6 +97,11 @@ class App extends Component {
     const taskListBackup = [...this.state.taskList];
     let taskList = [...this.state.taskList];
     const task = { ...t };
+    delete task.__v;
+    delete task.dateCreated;
+    if (!task.dueDate) {
+      task.dueDate = "";
+    }
     if (!task.ownerId) task.ownerId = this.state.user._id;
 
     if (task._id && task._id !== "") {
@@ -175,6 +180,12 @@ class App extends Component {
     });
   };
 
+  handleHidFormModal = () => {
+    this.setState({
+      showFormModal: false,
+    });
+  };
+
   handleSetTimerBreak = (startBreak) => {
     this.setState({
       isBreak: startBreak,
@@ -204,13 +215,16 @@ class App extends Component {
     window.location.reload();
   };
 
-  handleGetTaskForModal = (id, type) => {
+  handleGetTaskForModal = (id, taskField) => {
     const taskIndex = this.state.taskList.findIndex((task) => task._id === id);
 
     const taskObj = this.state.taskList[taskIndex];
-    console.log(taskObj);
 
-    console.log(type);
+    this.setState({
+      showFormModal: true,
+      taskObj,
+      taskField,
+    });
   };
 
   render() {
@@ -235,9 +249,10 @@ class App extends Component {
 
             <FormModal
               showFormModal={this.state.showFormModal}
-              taskObj={this.state.taskObj}
-              handleAddTask={this.handleAddTask}
               taskField={this.state.taskField}
+              taskObj={this.state.taskObj}
+              handleHidFormModal={this.handleHidFormModal}
+              handleAddTask={this.handleAddTask}
             />
 
             <div className="content">

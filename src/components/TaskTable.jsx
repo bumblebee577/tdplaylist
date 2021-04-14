@@ -152,94 +152,111 @@ class TaskTable extends Table {
           <h2>{new Date().toDateString()}</h2>
         ) : null}
 
-        <table className="table">
-          {this.state.taskFilter === "agenda"
-            ? this.renderHeader("Done")
-            : this.renderHeader()}
+        {_.isEmpty(sortedTaskList) ? (
+          <i>{`No tasks for filter "${this.state.taskFilter}"`}</i>
+        ) : (
+          <table className="table">
+            {this.state.taskFilter === "agenda"
+              ? this.renderHeader("Done")
+              : this.renderHeader()}
 
-          <tbody>
-            {sortedTaskList.map((t, i) => (
-              <tr
-                key={"row" + i + 1}
-                className={t.status === "completed" ? "complete" : "incomplete"}
-              >
-                <td className="num" key={i + 1}>
-                  {i + 1}
-                </td>
-                <td
+            <tbody>
+              {sortedTaskList.map((t, i) => (
+                <tr
+                  key={"row" + i + 1}
                   className={
-                    this.state.checked[t._id]
-                      ? "title complete  "
-                      : "title incomplete  "
-                  }
-                  key={i + 1 + "title"}
-                >
-                  <Link to={`/taskForm/${t.ownerId}/${t._id}`}>
-                    {" "}
-                    {t.title}{" "}
-                  </Link>
-                </td>
-                <td
-                  className={
-                    this.state.checked[t._id]
-                      ? "goal complete  "
-                      : "goal incomplete  "
-                  }
-                  key={i + 1 + "goal"}
-                >
-                  {t.goal}
-                </td>
-                <td
-                  className={
-                    this.state.checked[t._id]
-                      ? "modal_row_item  complete  "
-                      : "modal_row_item incomplete  "
-                  }
-                  key={i + 1 + "minsWorked"}
-                >
-                  {t.minsWorked
-                    ? Object.values(t.minsWorked).reduce(
-                        (a, c) => a + parseInt(c),
-                        0
-                      )
-                    : 0}{" "}
-                </td>
-                <td
-                  className={
-                    this.state.checked[t._id]
-                      ? "modal_row_item  complete  "
-                      : "modal_row_item incomplete  "
-                  }
-                  key={i + 1 + "scheduled"}
-                >
-                  {this.formatDate(t.scheduled)}
-                </td>
-                <td
-                  className={
-                    this.state.checked[t._id]
-                      ? "modal_row_item complete"
-                      : "modal_row_item incomplete"
-                  }
-                  key={i + 1 + "status"}
-                  onClick={() =>
-                    this.props.handleGetTaskForModal(t._id, "status")
+                    t.status === "completed" ? "complete" : "incomplete"
                   }
                 >
-                  {t.status}
-                </td>
-                {this.state.taskFilter === "agenda" && (
-                  <td className="done" key={i + 1 + "done"}>
-                    <input
-                      type="checkbox"
-                      onChange={() => this.handleChecked(t._id)}
-                      checked={this.state.checked[t._id] ? true : false}
-                    />
+                  <td className="num" key={i + 1}>
+                    {i + 1}
                   </td>
-                )}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                  <td
+                    className={
+                      this.state.checked[t._id] &&
+                      this.state.taskFilter === "agenda"
+                        ? "title complete  "
+                        : "title incomplete  "
+                    }
+                    key={i + 1 + "title"}
+                  >
+                    <Link to={`/taskForm/${t.ownerId}/${t._id}`}>
+                      {" "}
+                      {t.title}{" "}
+                    </Link>
+                  </td>
+                  <td
+                    className={
+                      this.state.checked[t._id] &&
+                      this.state.taskFilter === "agenda"
+                        ? "goal complete  "
+                        : "goal incomplete  "
+                    }
+                    key={i + 1 + "goal"}
+                  >
+                    {t.goal}
+                  </td>
+                  <td
+                    className={
+                      this.state.checked[t._id] &&
+                      this.state.taskFilter === "agenda"
+                        ? "modal_row_item  complete  "
+                        : "modal_row_item incomplete  "
+                    }
+                    key={i + 1 + "minsWorked"}
+                    onClick={() =>
+                      this.props.handleGetTaskForModal(t._id, "minswrked")
+                    }
+                  >
+                    {t.minsWorked
+                      ? Object.values(t.minsWorked).reduce(
+                          (a, c) => a + parseInt(c),
+                          0
+                        )
+                      : 0}{" "}
+                  </td>
+                  <td
+                    className={
+                      this.state.checked[t._id] &&
+                      this.state.taskFilter === "agenda"
+                        ? "modal_row_item  complete  "
+                        : "modal_row_item incomplete  "
+                    }
+                    key={i + 1 + "scheduled"}
+                    onClick={() =>
+                      this.props.handleGetTaskForModal(t._id, "scheduled")
+                    }
+                  >
+                    {this.formatDate(t.scheduled)}
+                  </td>
+                  <td
+                    className={
+                      this.state.checked[t._id] &&
+                      this.state.taskFilter === "agenda"
+                        ? "modal_row_item complete"
+                        : "modal_row_item incomplete"
+                    }
+                    key={i + 1 + "status"}
+                    onClick={() =>
+                      this.props.handleGetTaskForModal(t._id, "status")
+                    }
+                  >
+                    {t.status}
+                  </td>
+                  {this.state.taskFilter === "agenda" && (
+                    <td className="done" key={i + 1 + "done"}>
+                      <input
+                        type="checkbox"
+                        onChange={() => this.handleChecked(t._id)}
+                        checked={this.state.checked[t._id] ? true : false}
+                      />
+                    </td>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     );
   }
