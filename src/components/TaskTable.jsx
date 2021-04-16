@@ -153,7 +153,9 @@ class TaskTable extends Table {
         ) : null}
 
         {_.isEmpty(sortedTaskList) ? (
-          <i>{`No tasks for filter "${this.state.taskFilter}"`}</i>
+          <div>
+            <i>{`No tasks for filter "${this.state.taskFilter}"`}</i>
+          </div>
         ) : (
           <table className="table">
             {this.state.taskFilter === "agenda"

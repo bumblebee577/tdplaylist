@@ -4,6 +4,8 @@ A task management web app that allows you to quickly create and track tasks with
 focus your work in bite-sized chunks. You can review your productivity via a report dashboard that will break down how you've spent
 your time. Check out the live website at [tdplaylist.xyz](http://tdplaylist.xyz/)
 
+![tdplaylist tasklist screenshot](tdplaylist-tasklist-screenshot.png)
+
 # Technologies
 
 ### Front-end for tdplaylist web app
